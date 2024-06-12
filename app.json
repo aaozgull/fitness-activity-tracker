@@ -18,10 +18,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.aaozgull.fitness"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c3acd5b8-4dc7-4b55-9fcf-3eae1b2cbf4c"
+      }
+    },
+    "owner": "aaozgull"
   }
 }
