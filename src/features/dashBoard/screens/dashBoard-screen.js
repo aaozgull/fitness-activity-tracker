@@ -53,9 +53,7 @@ export const DashBoardScreen = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1 }}>
       <PageContainer style={styles.container}>
         <Text style={styles.userNameText}>Hi! Aaoz</Text>
-        <View style={styles.summary}>
-          <ToDoSummary />
-        </View>
+        <View style={styles.summary}>{/*  <ToDoSummary /> */}</View>
 
         <PageTitle
           title="My Progress"

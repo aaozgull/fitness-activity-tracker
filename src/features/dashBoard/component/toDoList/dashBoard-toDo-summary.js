@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 
 //import { GlobalStyles } from "../../constants/styles";
@@ -10,205 +10,90 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import ToDoOutput from "../toDoList/dashBoard-toDo-list-comonent";
 import { theme } from "../../../../infrastructure/theme/index";
-
-const DUMMY_EXPENSES = [
-  {
-    id: "e1",
-    description: "Eat two eggs",
-    icon: "utensils",
-    amount: 59.99,
-    date: new Date("2024-2-9"),
-  },
-  {
-    id: "e2",
-    description: "30 mins running",
-    icon: "running",
-    amount: 89.29,
-    date: new Date("2024-2-9"),
-  },
-  {
-    id: "e3",
-    description: "Eat some bananas",
-    icon: "utensils",
-    amount: 5.99,
-    date: new Date("2024-2-9"),
-  },
-  {
-    id: "e4",
-    description: "read a book",
-    icon: "book",
-    amount: 14.99,
-    date: new Date("2024-2-11"),
-  },
-  {
-    id: "e5",
-    description: "read another book",
-    icon: "book",
-    amount: 18.59,
-    date: new Date("2024-2-11"),
-  },
-  {
-    id: "e6",
-    description: "jogging",
-    icon: "running",
-    amount: 89.29,
-    date: new Date("2024-2-11"),
-  },
-  {
-    id: "e7",
-    description: "eat some apples",
-    icon: "utensils",
-    amount: 5.99,
-    date: new Date("2024-2-11"),
-  },
-  {
-    id: "e8",
-    description: "Exercise",
-    icon: "dumbbell",
-    amount: 14.99,
-    date: new Date("2024-2-13"),
-  },
-  {
-    id: "e9",
-    description: "gym",
-    icon: "dumbbell",
-    amount: 18.59,
-    date: new Date("2024-2-13"),
-  },
-  {
-    id: "e10",
-    description: "jogging",
-    icon: "running",
-    amount: 89.29,
-    date: new Date("2024-2-13"),
-  },
-  {
-    id: "e11",
-    description: "eat some apples",
-    icon: "utensils",
-    amount: 5.99,
-    date: new Date("2024-2-12"),
-  },
-  {
-    id: "e12",
-    description: "Exercise",
-    icon: "dumbbell",
-    amount: 14.99,
-    date: new Date("2024-2-12"),
-  },
-  {
-    id: "e13",
-    description: "gym",
-    icon: "dumbbell",
-    amount: 18.59,
-    date: new Date("2024-2-12"),
-  },
-  {
-    id: "e14",
-    description: "read a book",
-    icon: "book",
-    amount: 14.99,
-    date: new Date("2024-2-12"),
-  },
-  {
-    id: "e15",
-    description: "sleeping",
-    icon: "bed",
-    amount: 18.59,
-    date: new Date("2024-2-10"),
-  },
-  {
-    id: "e16",
-    description: "jogging",
-    icon: "running",
-    amount: 89.29,
-    date: new Date("2024-2-10"),
-  },
-  {
-    id: "e17",
-    description: "sleeping",
-    icon: "bed",
-    amount: 5.99,
-    date: new Date("2024-2-11"),
-  },
-  {
-    id: "e18",
-    description: "Exercise",
-    icon: "dumbbell",
-    amount: 14.99,
-    date: new Date("2024-2-10"),
-  },
-  {
-    id: "e19",
-    description: "gym",
-    icon: "dumbbell",
-    amount: 18.59,
-    date: new Date("2024-2-7"),
-  },
-  {
-    id: "e20",
-    description: "jogging",
-    icon: "running",
-    amount: 89.29,
-    date: new Date("2024-2-10"),
-  },
-  {
-    id: "e21",
-    description: "eat some apples",
-    icon: "utensils",
-    amount: 5.99,
-    date: new Date("2024-2-10"),
-  },
-];
+import { useSelector } from "react-redux";
 
 function ToDoSummary() {
+  const calendarData = useSelector((state) => state.calendar.calendarData);
+  const calendarActivitiesData = useSelector(
+    (state) => state.activities.calendarActivitiesData
+  );
   const todayDate = getFormattedDate(new Date());
-  // console.log(`todateDate ${todayDate}`);
-
-  const todoDateLength = function setDateIndex() {
-    const todatArry = DUMMY_EXPENSES.filter((toDo) => {
-      const date = getFormattedDate(toDo.date);
-      return date == calculateDate;
-    });
-    //setPrevious(todatArry.length - 1);
-    // setNext(todatArry.length + 1);
-    return todatArry.length;
-  };
-  const [previous, setPrevious] = useState(previousIndex);
-  const [next, setNext] = useState(nextIndex);
-  const [previousIndex, setPreviousIndex] = useState(todoDateLength - 1);
-  const [nextIndex, setNextIndex] = useState(todoDateLength + 1);
   const [calculateDate, setCalculateDate] = useState(todayDate);
+  const [minDate, setMinDate] = useState(null);
+  const [maxDate, setMaxDate] = useState(null);
+  useEffect(() => {
+    const calendarKeys = Object.keys(calendarData);
+    // console.log("calendarData in useEffect", calendarKeys.length);
+    if (calendarKeys.length > 0) {
+      const firstDateKey = calendarKeys[0];
+      const lastDateKey = calendarKeys[calendarKeys.length - 1];
+      setMinDate(new Date(calendarData[firstDateKey].date));
+      setMaxDate(new Date(calendarData[lastDateKey].date));
+    }
+  }, [calendarData]);
 
-  //let calculateDate = new Date();
-  function previousDate() {
-    // console.log("previousDate");
-    if (previousIndex === 0) return;
-    setPrevious(previous - 1);
-    setCalculateDate(
-      getFormattedDate(getDateMinusDays(new Date(calculateDate), 1))
-    );
-    console.log(`${previous} previous date ${calculateDate}`);
-    setNext(previous);
-  }
-  function nextDate() {
-    //  console.log("nextDate");
-    // if (calculateDate == todayDate) return;
-    setNext(next + 1);
-    setCalculateDate(
-      getFormattedDate(getDatePlusDays(new Date(calculateDate), 1))
-    );
-    console.log(`${next} next date ${calculateDate}`);
-    setPrevious(next);
-  }
+  const getToDosForDate = (date) => {
+    return Object.values(calendarData).filter((activity) => {
+      return getFormattedDate(new Date(activity.date)) === date;
+    });
+  };
 
-  //useEffect(()=>{},[])
+  const [previousIndex, setPreviousIndex] = useState(
+    getToDosForDate(todayDate).length - 1
+  );
+  const [nextIndex, setNextIndex] = useState(
+    getToDosForDate(todayDate).length + 1
+  );
 
-  const calculateDateToDos = DUMMY_EXPENSES.filter((toDo) => {
-    const date = getFormattedDate(toDo.date);
-    return date == calculateDate;
-  });
+  useEffect(() => {
+    setPreviousIndex(getToDosForDate(calculateDate).length - 1);
+    setNextIndex(getToDosForDate(calculateDate).length + 1);
+  }, [calculateDate, calendarData]);
 
+  const previousDate = () => {
+    const newDate = getDateMinusDays(new Date(calculateDate), 1);
+    // console.log("previousDate newDate", newDate);
+    //  console.log("previousDate minDate", minDate);
+    if (newDate >= minDate) {
+      //  console.log("newDate >= minDate", getFormattedDate(newDate));
+      setCalculateDate(getFormattedDate(newDate));
+    }
+  };
+
+  const nextDate = () => {
+    const newDate = getDatePlusDays(new Date(calculateDate), 1);
+    //console.log("nextDate newDate", newDate);
+    //console.log("nextDate maxDate", maxDate);
+    if (newDate <= maxDate) {
+      // console.log("newDate <= maxDate", getFormattedDate(newDate));
+      setCalculateDate(getFormattedDate(newDate));
+    }
+  };
+
+  const calculateDateToDos = useMemo(
+    () => getToDosForDate(calculateDate),
+    [calculateDate, calendarData]
+  );
+
+  const calendarActivities =
+    calendarActivitiesData[calculateDateToDos[0]?.key] || [];
+  const calendarActivityList = useMemo(() => {
+    const activityList = [];
+    if (calculateDateToDos.length > 0) {
+      for (const key in calendarActivities) {
+        const activity = calendarActivities[key];
+        activityList.push({
+          key,
+          calendarId: calculateDateToDos[0].key,
+          ...activity,
+        });
+      }
+    }
+    return activityList;
+  }, [calculateDateToDos, calendarActivities]);
+
+  /*   console.log("calculateDateToDos:", calculateDateToDos);*/
+  // console.log("calendarActivityList", calendarActivityList);
   return (
     <View style={styles.ListContainer}>
       <View style={styles.container}>
@@ -231,7 +116,7 @@ function ToDoSummary() {
         </View>
       </View>
       <View style={styles.toDolist}>
-        <ToDoOutput todo={calculateDateToDos} />
+        <ToDoOutput todo={calendarActivityList} />
       </View>
     </View>
   );

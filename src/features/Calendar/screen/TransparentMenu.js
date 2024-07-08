@@ -68,13 +68,7 @@ const TransparentMenu = ({
         </View>
       </View>
       <View style={styles.modalContainer}>
-        {/* <PageTitle title={formattedDate} textStyle={styles.menuHeaderText} /> */}
-
         <MenuItems onSelectedMenuItem={handleSelectMenuItem} />
-
-        {/* <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-          <Text style={styles.closeButtonText}>X</Text>
-        </TouchableOpacity> */}
       </View>
     </Modal>
   );

@@ -39,13 +39,47 @@ const DateDisplay = ({ date }) => {
 };
 
 const IconButton = ({ icon: Icon, name }) => {
+  ////////////////////////////
+  let IconComponent;
+  switch (Icon) {
+    case "FontAwesome5":
+      IconComponent = FontAwesome5;
+      break;
+    case "Ionicons":
+      IconComponent = Ionicons;
+      break;
+    case "MaterialIcons":
+      IconComponent = MaterialIcons;
+      break;
+    case "MaterialCommunityIcons":
+      IconComponent = MaterialCommunityIcons;
+      break;
+    case "FontAwesome":
+      IconComponent = FontAwesome;
+      break;
+    case "faSwimmer":
+      IconComponent = faSwimmer;
+      break;
+    case "faBaseballBall":
+      IconComponent = faBaseballBall;
+      break;
+    // Add other cases as needed
+    default:
+      IconComponent = Ionicons; // Default icon
+      break;
+  }
+  ////////////////////////////
   return (
     <View style={styles.iconButtonContainer}>
       {name !== "person-swimming" && name !== "baseball-bat-ball" && (
-        <Icon name={name} size={34} style={styles.menuItemIcon} />
+        <IconComponent name={name} size={34} style={styles.menuItemIcon} />
       )}
       {(name === "person-swimming" || name === "baseball-bat-ball") && (
-        <FontAwesomeIcon icon={Icon} size={34} style={styles.menuItemIcon} />
+        <FontAwesomeIcon
+          icon={IconComponent}
+          size={34}
+          style={styles.menuItemIcon}
+        />
       )}
       <Text style={styles.menuItemIconText}>|</Text>
       <Ionicons
@@ -68,49 +102,49 @@ const SubMenuItems = ({
       name: "running",
       text: "Running",
       backgroundColor: colors.ui.accent2,
-      icon: FontAwesome5,
+      icon: "FontAwesome5",
       isChecked: false,
     },
     {
       name: "walk",
       text: "Walking",
       backgroundColor: colors.ui.accent2,
-      icon: Ionicons,
+      icon: "Ionicons",
       isChecked: false,
     },
     {
       name: "bicycle",
       text: "Cycing",
       backgroundColor: colors.ui.accent2,
-      icon: Ionicons,
+      icon: "Ionicons",
       isChecked: false,
     },
     {
       name: "rowing",
       text: "Rowing",
       backgroundColor: colors.ui.accent2,
-      icon: MaterialIcons,
+      icon: "MaterialIcons",
       isChecked: false,
     },
     {
       name: "camera",
       text: "Elliptical",
       backgroundColor: colors.ui.accent2,
-      icon: Ionicons,
+      icon: "Ionicons",
       isChecked: false,
     },
     {
       name: "stairs-up",
       text: "Stair climbing",
       backgroundColor: colors.ui.accent2,
-      icon: MaterialCommunityIcons,
+      icon: "MaterialCommunityIcons",
       isChecked: false,
     },
     {
       name: "american-football-outline",
       text: "American football",
       backgroundColor: colors.ui.accent2,
-      icon: Ionicons,
+      icon: "Ionicons",
       isChecked: false,
     },
     /* <MaterialCommunityIcons name="football-australian" size={24} color="black" /> */
@@ -118,119 +152,119 @@ const SubMenuItems = ({
       name: "football",
       text: "Australian football",
       backgroundColor: colors.ui.accent2,
-      icon: Ionicons,
+      icon: "Ionicons",
       isChecked: false,
     },
     {
       name: "badminton",
       text: "Badminton",
       backgroundColor: colors.ui.accent2,
-      icon: MaterialCommunityIcons,
+      icon: "MaterialCommunityIcons",
       isChecked: false,
     },
     {
       name: "baseball-bat-ball",
       text: "Baseball",
       backgroundColor: colors.ui.accent2,
-      icon: faBaseballBall,
+      icon: "faBaseballBall",
       isChecked: false,
     },
     {
       name: "basketball-outline",
       text: "Basketball",
       backgroundColor: colors.ui.accent2,
-      icon: Ionicons,
+      icon: "Ionicons",
       isChecked: false,
     },
     {
       name: "sports-cricket",
       text: "Cricket",
       backgroundColor: colors.ui.accent2,
-      icon: MaterialIcons,
+      icon: "MaterialIcons",
       isChecked: false,
     },
     {
       name: "dance-pole",
       text: "CrossFit",
       backgroundColor: colors.ui.accent2,
-      icon: MaterialCommunityIcons,
+      icon: "MaterialCommunityIcons",
       isChecked: false,
     },
     {
       name: "dance-ballroom",
       text: "Dancing",
       backgroundColor: colors.ui.accent2,
-      icon: MaterialCommunityIcons,
+      icon: "MaterialCommunityIcons",
       isChecked: false,
     },
     {
       name: "group",
       text: "Fitness Class",
       backgroundColor: colors.ui.accent2,
-      icon: FontAwesome,
+      icon: "FontAwesome",
       isChecked: false,
     },
     {
       name: "hiking",
       text: "Hiking",
       backgroundColor: colors.ui.accent2,
-      icon: MaterialCommunityIcons,
+      icon: "MaterialCommunityIcons",
       isChecked: false,
     },
     {
       name: "weight-lifter",
       text: "HIIT",
       backgroundColor: colors.ui.accent2,
-      icon: MaterialCommunityIcons,
+      icon: "MaterialCommunityIcons",
       isChecked: false,
     },
     {
       name: "sports-hockey",
       text: "Hockey",
       backgroundColor: colors.ui.accent2,
-      icon: MaterialIcons,
+      icon: "MaterialIcons",
       isChecked: false,
     },
     {
       name: "jump-rope",
       text: "Jump rope",
       backgroundColor: colors.ui.accent2,
-      icon: MaterialCommunityIcons,
+      icon: "MaterialCommunityIcons",
       isChecked: false,
     },
     {
       name: "rowing",
       text: "Paddling",
       backgroundColor: colors.ui.accent2,
-      icon: MaterialIcons,
+      icon: "MaterialIcons",
       isChecked: false,
     },
     {
       name: "barbell",
       text: "Pilates",
       backgroundColor: colors.ui.accent2,
-      icon: Ionicons,
+      icon: "Ionicons",
       isChecked: false,
     },
     {
       name: "rugby",
       text: "Rugby",
       backgroundColor: colors.ui.accent2,
-      icon: MaterialCommunityIcons,
+      icon: "MaterialCommunityIcons",
       isChecked: false,
     },
     {
       name: "skiing",
       text: "Skiing",
       backgroundColor: colors.ui.accent2,
-      icon: FontAwesome5,
+      icon: "FontAwesome5",
       isChecked: false,
     },
     {
       name: "skiing-nordic",
       text: "Snowboarding",
       backgroundColor: colors.ui.accent2,
-      icon: FontAwesome5,
+      icon: "FontAwesome5",
       isChecked: false,
     },
 
@@ -240,42 +274,42 @@ const SubMenuItems = ({
       name: "sports-tennis",
       text: "Squash",
       backgroundColor: colors.ui.accent2,
-      icon: MaterialIcons,
+      icon: "MaterialIcons",
       isChecked: false,
     },
     {
       name: "baseball-outline",
       text: "Softball",
       backgroundColor: colors.ui.accent2,
-      icon: Ionicons,
+      icon: "Ionicons",
       isChecked: false,
     },
     {
       name: "soccer-ball-o",
       text: "Soccer",
       backgroundColor: colors.ui.accent2,
-      icon: FontAwesome,
+      icon: "FontAwesome",
       isChecked: false,
     },
     {
       name: "person-swimming",
       text: "Swimming",
       backgroundColor: colors.ui.accent2,
-      icon: faSwimmer,
+      icon: "faSwimmer",
       isChecked: false,
     },
     {
       name: "sports-tennis",
       text: "Tennis",
       backgroundColor: colors.ui.accent2,
-      icon: MaterialIcons,
+      icon: "MaterialIcons",
       isChecked: false,
     },
     {
       name: "table-tennis",
       text: "Table Tennis",
       backgroundColor: colors.ui.accent2,
-      icon: FontAwesome5,
+      icon: "FontAwesome5",
       isChecked: false,
     },
   ];

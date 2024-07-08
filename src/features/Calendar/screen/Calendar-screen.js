@@ -41,10 +41,10 @@ const CalendarScreen = ({ navigation }) => {
   const [selectedItem, setSelectedItem] = useState({});
   const [selectedMenuItems, setSelectedMenuItems] = useState([]);
   const dispatch = useDispatch();
-  /*  const userData = useSelector((state) => state.auth.userData);
+  const userData = useSelector((state) => state.auth.userData);
   const calendarData = useSelector((state) => state.calendar.calendarData);
 
-  const calendarActivitiesData = useSelector(
+  /* const calendarActivitiesData = useSelector(
     (state) => state.activities.calendarActivitiesData
   ); */
 
@@ -104,28 +104,50 @@ const CalendarScreen = ({ navigation }) => {
   };
 
   const handleSelectMenuItem = async (menuItem) => {
-    ///console.log(`Pressed ${menuItem.text}`); // Access the text property of the selected item
+    console.log(`Pressed ${menuItem.text}`); // Access the text property of the selected item
 
     setMenuVisible(false);
     if (menuItem.text === "Activity") {
       setSubmenuVisible(true); // Open submenu modal
     }
     if (menuItem.text !== "Activity") {
-      try {
-        await addActivitiesData(
+      /* try {
+        const activityId = await addActivitiesData(
           selectedItem.calendarId,
           userData.userId,
           menuItem
         );
+      } catch (error) {
+        console.error("Error new adding activity:", error);
+      }
+      try {
+        console.log("Dispatching addCalendarActivity action", {
+          calendarId: selectedItem.calendarId,
+          activity: { ...menuItem, id: Date.now().toString() },
+        }); // Debugging statement
         dispatch(
           addCalendarActivity({
             calendarId: selectedItem.calendarId,
-            activity: menuItem,
+            activity: { ...menuItem, id: Date.now().toString() },
           })
         );
       } catch (error) {
-        console.error("Error adding activity:", error);
-      }
+        console.error("Error dispatching addCalendarActivity action:", error);
+      } */
+      addActivitiesData(selectedItem.calendarId, userData.userId, menuItem)
+        .then((activityId) => {
+          console.log("New activity added with ID:", activityId);
+          // Now you can dispatch your action with the new activity
+          dispatch(
+            addCalendarActivity({
+              calendarId: selectedItem.calendarId,
+              activity: { ...menuItem, id: activityId },
+            })
+          );
+        })
+        .catch((error) => {
+          console.error("Error adding activity:", error);
+        });
     }
   };
 

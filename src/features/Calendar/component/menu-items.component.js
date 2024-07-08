@@ -12,13 +12,40 @@ import { theme } from "../../../infrastructure/theme";
 import { colors } from "../../../infrastructure/theme/colors";
 
 const IconButton = ({ icon: Icon, name, backgroundColor }) => {
+  let IconComponent;
+  switch (Icon) {
+    case "FontAwesome5":
+      IconComponent = FontAwesome5;
+      break;
+    case "Ionicons":
+      IconComponent = Ionicons;
+      break;
+    case "MaterialCommunityIcons":
+      IconComponent = MaterialCommunityIcons;
+      break;
+    case "faWeightScale":
+      IconComponent = faWeightScale;
+      break;
+    case "faUtensils":
+      IconComponent = faUtensils;
+      break;
+    // Add other cases as needed
+    default:
+      IconComponent = Ionicons; // Default icon
+      break;
+  }
+  ////////////////////////////
   return (
     <View style={[styles.iconButtonContainer, { backgroundColor }]}>
       {name !== "weight-scale" && name !== "utensils" && (
-        <Icon name={name} size={34} style={styles.menuItemIcon} />
+        <IconComponent name={name} size={34} style={styles.menuItemIcon} />
       )}
       {(name === "weight-scale" || name === "utensils") && (
-        <FontAwesomeIcon icon={Icon} size={34} style={styles.menuItemIcon} />
+        <FontAwesomeIcon
+          icon={IconComponent}
+          size={34}
+          style={styles.menuItemIcon}
+        />
       )}
     </View>
   );
@@ -30,49 +57,49 @@ const MenuItems = ({ onSelectedMenuItem }) => {
       name: "weight",
       text: "Workout",
       backgroundColor: colors.ui.tertiary,
-      icon: FontAwesome5,
+      icon: "FontAwesome5",
       isChecked: false,
     },
     {
       name: "shoe-sneaker",
       text: "Activity",
       backgroundColor: colors.ui.accent2,
-      icon: MaterialCommunityIcons,
+      icon: "MaterialCommunityIcons",
       isChecked: false,
     },
     {
       name: "utensils",
       text: "Meal",
       backgroundColor: colors.ui.accent,
-      icon: faUtensils,
+      icon: "faUtensils",
       isChecked: false,
     },
     {
       name: "camera",
       text: "Photos",
       backgroundColor: colors.ui.yellow,
-      icon: Ionicons,
+      icon: "Ionicons",
       isChecked: false,
     },
     {
       name: "weight-scale",
       text: "Body Stats",
       backgroundColor: colors.ui.fiftary,
-      icon: faWeightScale,
+      icon: "faWeightScale",
       isChecked: false,
     },
     {
       name: "book",
       text: "read before sleep",
       backgroundColor: colors.ui.error500,
-      icon: Ionicons,
+      icon: "Ionicons",
       isChecked: false,
     },
     {
       name: "sleep",
       text: "sleep",
       backgroundColor: colors.ui.green,
-      icon: MaterialCommunityIcons,
+      icon: "MaterialCommunityIcons",
       isChecked: false,
     },
   ];

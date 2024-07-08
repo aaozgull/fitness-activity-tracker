@@ -12,6 +12,8 @@ import {
 import ToDoItem from "../../dashBoard/component/toDoList/dashBoard-toDo-Item";
 
 export const CalendarItem = ({ date, selectedDate, calendarId }) => {
+  // console.log(`CalendarItem  calendarId  ${calendarId}`);
+
   let displayDate = format(date, "MMM dd");
   const formattedDate = getFormattedDate(date);
   /* const formattedSelectedDate =
@@ -47,12 +49,13 @@ export const CalendarItem = ({ date, selectedDate, calendarId }) => {
   const calendarActivityList = [];
   for (const key in calendarActivities) {
     const activity = calendarActivities[key];
-    //console.log(`${activity.text}  formattedDate  ${formattedDate}`);
+
     calendarActivityList.push({
       key,
       ...activity,
     });
   }
+
   return (
     <View style={styles.container}>
       <View style={styles.dateContainer}>
@@ -70,6 +73,7 @@ export const CalendarItem = ({ date, selectedDate, calendarId }) => {
             checked={menuItem.isChecked}
             color={menuItem.backgroundColor}
             icon={menuItem.icon}
+            name={menuItem.name}
             style={styles.toDoItem}
           />
         ))}
@@ -96,17 +100,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   toDoItem: {
-    //padding: theme.spaceInNumber[2], // 12,
     marginLeft: theme.spaceInNumber[3], //8,
     backgroundColor: theme.colors.ui.secondary,
     flexDirection: "row",
     justifyContent: "space-between",
-    /* borderRadius: 6,
-    elevation: 3,
-    shadowColor: theme.colors.ui.gray700, // "#39324a", // GlobalStyles.colors.gray500,
-    shadowRadius: 4,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.4, */
   },
   selectedMenuItemText: {
     fontFamily: "regular",

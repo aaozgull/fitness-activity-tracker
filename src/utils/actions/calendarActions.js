@@ -78,10 +78,14 @@ export const addActivitiesData = async (
   const CalendarItemData = {
     setBy: loggedInUserId,
     setAt: new Date().toISOString(),
-    ...calendarItemData, ///// there may be different activities. Need to be change this
+    ...calendarItemData,
   };
 
-  await push(activitiesRef, CalendarItemData);
+  //await push(activitiesRef, CalendarItemData);
+  const newActivityRef = await push(activitiesRef, CalendarItemData);
+  const activityId = newActivityRef.key;
+
+  return activityId;
 };
 
 export const updateActivitiesData = async (

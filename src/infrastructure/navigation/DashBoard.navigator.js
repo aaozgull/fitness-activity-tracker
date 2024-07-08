@@ -92,7 +92,7 @@ const DashBoardNavigator = (props) => {
 
           if (calendarFoundCount >= calendarIds.length) {
             dispatch(setCalendarData({ calendarData: calendarData }));
-            console.log(`dispatch(setCalendarData) ${calendarData}`);
+            //console.log(`dispatch(setCalendarData) ${calendarData}`);
             setIsLoading(false);
           }
         });
