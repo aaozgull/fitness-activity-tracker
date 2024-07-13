@@ -51,7 +51,6 @@ export const uploadImageAsync = async (
   if (imageAngle) {
     pathFolder = imageAngle;
   }
-
   const storageRef = ref(getStorage(app), `${pathFolder}/${uuid.v4()}`);
 
   await uploadBytesResumable(storageRef, blob);
@@ -80,6 +79,7 @@ export const openCamera = async () => {
     console.log("No permission to access the camera");
     return;
   }
+  // console.log("permission to access the camera");
 
   const result = await ImagePicker.launchCameraAsync({
     mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -87,8 +87,11 @@ export const openCamera = async () => {
     aspect: [1, 1],
     quality: 1,
   });
+  //console.log("result.canceled", result.canceled);
 
-  if (!result.canceled) {
-    return result.uri;
+  if (!result.canceled && result.assets && result.assets.length > 0) {
+    console.log("result.assets[0].uri", result.assets[0].uri);
+
+    return result.assets[0].uri;
   }
 };

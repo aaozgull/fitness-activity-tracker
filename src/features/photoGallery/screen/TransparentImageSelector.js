@@ -1,10 +1,13 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import Modal from "react-native-modal";
 import { colors } from "../../../infrastructure/theme/colors";
 import { FontAwesome5 } from "@expo/vector-icons"; // You can use a different icon library
-
 import { theme } from "../../../infrastructure/theme";
+
+import front from "../../../../assets/images/front.jpg";
+import back from "../../../../assets/images/back.jpg";
+import side from "../../../../assets/images/side.jpg";
 
 const TransparentImageSelector = ({
   isVisible,
@@ -13,18 +16,30 @@ const TransparentImageSelector = ({
   onTakePhoto,
   onPickImage,
 }) => {
-  let headerTitle = "Add Progress ";
+  let headerTitle = "Add ";
+  let imageSource = front;
   if (selectedImageAngle === "1") {
     headerTitle += "Front Image";
+    imageSource = front;
   } else if (selectedImageAngle === "2") {
     headerTitle += "Back Image";
+    imageSource = back;
   } else if (selectedImageAngle === "3") {
     headerTitle += "Side Image";
+    imageSource = side;
   }
   return (
     <Modal isVisible={isVisible} onBackdropPress={onClose}>
       <View style={styles.modalContainer}>
         <PageTitle title={headerTitle} textStyle={styles.menuHeaderText} />
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.image}
+            source={imageSource}
+            resizeMode="contain"
+          />
+        </View>
+
         <TouchableOpacity
           /*   key={props.key} */
           style={styles.menuItem}
@@ -117,6 +132,17 @@ const styles = StyleSheet.create({
     color: theme.colors.ui.error50, //"#fff", // Adjust the color as needed
     fontWeight: "bold",
     fontSize: 18,
+  },
+  imageContainer: {
+    width: "100%",
+    height: 400,
+    marginBottom: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
   },
 });
 

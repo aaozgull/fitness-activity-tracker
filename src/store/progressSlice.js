@@ -9,7 +9,15 @@ const progressSlice = createSlice({
     setProgressData: (state, action) => {
       state.progressData = { ...action.payload.progressData };
     },
+    addProgressData: (state, action) => {
+      const { progresskey, progressData } = action.payload;
+
+      state.progressData = {
+        ...state.progressData,
+        [progresskey]: progressData,
+      };
+    },
   },
 });
-export const setProgressData = progressSlice.actions.setProgressData;
+export const { setProgressData, addProgressData } = progressSlice.actions;
 export default progressSlice.reducer;

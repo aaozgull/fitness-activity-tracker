@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   ScrollView,
 } from "react-native";
-import { Feather, MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
+import { Feather, FontAwesome5 } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import Input from "../../../components/utility/Input";
 import PageContainer from "../../../components/utility/PageContainer";
@@ -25,10 +25,9 @@ import {
   uploadImageAsync,
 } from "../../../utils/imagePickerHelper";
 //import { updateLoggedInUserData } from "../../../store/authSlice";
-import { setProgressData } from "../../../store/progressSlice";
+import { addProgressData } from "../../../store/progressSlice";
 import TransparentImageSelector from "./TransparentImageSelector";
 import TransparentImageSlider from "./TransparentImageSlider";
-//import { updateSignedInUserData } from "../../../utils/actions/authActions";
 import { logProgress } from "../../../utils/actions/progressActions";
 import { validateInput } from "../../../utils/actions/formActions";
 import { reducer } from "../../../utils/reducers/formReducer";
@@ -36,14 +35,16 @@ import { reducer } from "../../../utils/reducers/formReducer";
 const LogProgress = ({ navigation }) => {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.userData);
-  const progressData = useSelector((state) => state.progress.progressData);
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [weight, setWeight] = useState(null);
+  const [note, setNote] = useState("");
   const [weightErrorText, setWeightErrorText] = useState("");
 
-  const [tempImageUri, setTempImageUri] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isFrontLoading, setIsFrontLoading] = useState(false);
+  const [isBackLoading, setIsBackLoading] = useState(false);
+  const [isSideLoading, setIsSideLoading] = useState(false);
   const [todayDate, setTodayDate] = useState(
     new Date().toLocaleDateString("en-US", {
       weekday: "long",
@@ -57,7 +58,6 @@ const LogProgress = ({ navigation }) => {
   const [imageSliderVisible, setImageSliderVisible] = useState(false);
   const [selectedImageAngle, setSelectedImageAngle] = useState(null);
   const [images, setImages] = useState([front, back, side]);
-
   const handleItemPress = (item) => {
     setSelectedImageAngle(item);
     setMenuVisible(true);
@@ -73,7 +73,7 @@ const LogProgress = ({ navigation }) => {
 
   ////////
 
-  const note = progressData.note || "";
+  // const note = progressData.note || "";
 
   const initialState = {
     inputValues: {
@@ -111,23 +111,26 @@ const LogProgress = ({ navigation }) => {
       weight: weight,
       todayDate: todayDate,
       // note: note,
-      // FrontPicture: frontImage,
-      // BackPicture: backImage,
-      // SidePicture: sideImage,
+      frontImage: images[0],
+      backImage: images[1],
+      sideImage: images[2],
     };
 
     try {
       setIsLoading(true);
-      /// await updateSignedInUserData(userData.userId, updatedValues);
-      // await logProgress(userData.userId, updatedValues);
+      const progresskey = await logProgress(userData.userId, updatedValues);
       //dispatch(updateLoggedInUserData({ newData: updatedValues }));
-      // dispatch(setProgressData({ progressData: updatedValues }));
+      dispatch(addProgressData({ progresskey, progressData: updatedValues }));
 
       setShowSuccessMessage(true);
 
       setTimeout(() => {
         setShowSuccessMessage(false);
-      }, 3000);
+        setImages([front, back, side]);
+        setWeight(null);
+        setNote("");
+        navigation.goBack();
+      }, 6000);
     } catch (error) {
       console.log(error);
     } finally {
@@ -140,154 +143,171 @@ const LogProgress = ({ navigation }) => {
 
     return currentValues.note != note;
   };
-  const setImageState = () => {
-    const newImages = [...images]; // Create a copy of the current images array
-    if (selectedImageAngle === "1") {
-      newImages[0] = { uri: tempImageUri }; // Update the front image
-    } else if (selectedImageAngle === "2") {
-      newImages[1] = { uri: tempImageUri }; // Update the back image
-    } else if (selectedImageAngle === "3") {
-      newImages[2] = { uri: tempImageUri }; // Update the side image
-    }
-    setImages(newImages); // Update the images state with the modified array
-  };
+  // Function to update the images state based on the selected image angle
+  const setImageState = useCallback(
+    (uploadUrl) => {
+      setImages((prevImages) => {
+        const newImages = [...prevImages];
+        if (selectedImageAngle === "1") {
+          newImages[0] = { uri: uploadUrl };
+          setIsFrontLoading(false);
+        } else if (selectedImageAngle === "2") {
+          newImages[1] = { uri: uploadUrl };
+          setIsBackLoading(false);
+        } else if (selectedImageAngle === "3") {
+          newImages[2] = { uri: uploadUrl };
+          setIsSideLoading(false);
+        }
+        return newImages;
+      });
+    },
+    [selectedImageAngle]
+  );
 
   const setImageFolderName = () => {
-    let imageAngle = "";
     if (selectedImageAngle === "1") {
-      imageAngle = "FrontPicture";
-    } else if (selectedImageAngle === "2") {
-      imageAngle = "BackPicture";
-    } else if (selectedImageAngle === "3") {
-      imageAngle = "SidePicture";
+      setIsFrontLoading(true);
+      return "FrontPicture";
     }
-    return imageAngle;
+    if (selectedImageAngle === "2") {
+      setIsBackLoading(true);
+      return "BackPicture";
+    }
+    if (selectedImageAngle === "3") {
+      setIsSideLoading(true);
+      return "SidePicture";
+    }
+    return "";
   };
 
   const pickImage = useCallback(async () => {
     try {
       setMenuVisible(false);
       const result = await launchImagePicker();
-      if (!result.cancelled) {
-        const tempUri = result.assets[0].uri; // Access the selected image through the assets array
-        console.log(`tempUri ${tempUri}`);
-        setIsLoading(true);
-        const imageFolder = setImageFolderName();
-        console.log(`imageFolder ${imageFolder}`);
-        //const uploadUrl = await uploadImageAsync(tempUri, imageFolder);
-        //  console.log(`uploadUrl ${uploadUrl}`);
-        setIsLoading(false);
-
-        /* if (!uploadUrl) {
-          throw new Error("Could not upload image");
-        } */
-
-        setTempImageUri(tempUri); //uploadUrl);
-        setImageState();
-        /// const newData = { [imageFolder]: uploadUrl };
-
-        //  await updateSignedInUserData(userData.userId, newData);
-        // dispatch(updateLoggedInUserData({ newData }));
+      if (!result.canceled) {
+        const tempUri = result.assets[0].uri;
+        const imageFolder = setImageFolderName(); // Set image folder name based on selected angle
+        const uploadUrl = await uploadImageAsync(tempUri, false, imageFolder); // Upload image and get URL
+        setImageState(uploadUrl); // Update the images state
       }
     } catch (error) {
       console.log(error);
     }
-  }, [tempImageUri]);
+  }, [setImageState, setImageFolderName]);
 
   const takePhoto = useCallback(async () => {
-    setMenuVisible(false);
     try {
+      setMenuVisible(false);
       const tempUri = await openCamera();
-      if (!tempUri) return;
-      //console.log(`tempUri ${tempUri}`);
-      setTempImageUri(tempUri); // Set temporary image URI
-      setIsLoading(true);
+      if (tempUri) {
+        const imageFolder = setImageFolderName(); // Set image folder name based on selected angle
+        const uploadUrl = await uploadImageAsync(tempUri, false, imageFolder); // Upload image and get URL
 
-      const imageFolder = setImageFolderName(); // Determine image folder (e.g., "FrontPicture")
-      //console.log(`imageFolder ${imageFolder}`);
-
-      // Perform image processing or uploading (if any)
-      // For example:
-      // const uploadUrl = await uploadImageAsync(tempUri, imageFolder);
-      // console.log(`uploadUrl ${uploadUrl}`);
-
-      // Once image processing is completed, update images state
-      setImageState(); // Update images array based on selected angle
-
-      setIsLoading(false);
+        setImageState(uploadUrl); // Update the images state
+      }
     } catch (error) {
       console.log(error);
       setMenuVisible(false);
       setIsLoading(false);
     }
-  }, [tempImageUri]);
+  }, [setImageState, setImageFolderName]);
 
+  const Container =
+    isFrontLoading || isBackLoading || isSideLoading ? View : TouchableOpacity;
   return (
     <PageContainer style={{ paddingHorizontal: 20 }}>
-      <Card elevation={5} style={styles.card}>
-        <TouchableOpacity
-          style={{ flex: 1, marginBottom: 40 }}
-          onPress={() => handleExpandImagesPress()}
-        >
-          <FontAwesome5
-            name="expand-arrows-alt"
-            size={24}
-            color={colors.ui.accent}
-            style={styles.expandIcon}
-          />
-        </TouchableOpacity>
-        <View style={styles.ImagesContainer}>
-          <TouchableOpacity
-            style={styles.mediaButton}
-            onPress={() => handleItemPress("1")}
-          >
-            <Card.Cover key="1" style={styles.cover} source={images[0]} />
-            <Feather
-              name="camera"
-              size={24}
-              color={colors.ui.tertiary}
-              style={styles.cameraIcon}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.mediaButton}
-            onPress={() => handleItemPress("2")}
-          >
-            <Card.Cover key="2" style={styles.cover} source={images[1]} />
-            <Feather
-              name="camera"
-              size={24}
-              color={colors.ui.tertiary}
-              style={styles.cameraIcon}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.mediaButton}
-            onPress={() => handleItemPress("3")}
-          >
-            <Card.Cover key="3" style={styles.cover} source={images[2]} />
-            <Feather
-              name="camera"
-              size={24}
-              color={colors.ui.tertiary}
-              style={styles.cameraIcon}
-            />
-          </TouchableOpacity>
-        </View>
-        <Text></Text>
-      </Card>
       <ScrollView contentContainerStyle={styles.formContainer}>
+        <Card elevation={5} style={styles.card}>
+          <Container
+            style={{ flex: 1, marginBottom: 40 }}
+            onPress={() => handleExpandImagesPress()}
+          >
+            <FontAwesome5
+              name="expand-arrows-alt"
+              size={24}
+              color={colors.ui.accent}
+              style={styles.expandIcon}
+            />
+          </Container>
+          <View style={styles.ImagesContainer}>
+            <Container
+              style={styles.mediaButton}
+              onPress={() => handleItemPress("1")}
+            >
+              <View style={styles.coverContainer}>
+                <Card.Cover key="1" style={styles.cover} source={images[0]} />
+                {isFrontLoading && (
+                  <ActivityIndicator
+                    size={"large"}
+                    color={colors.ui.accent2}
+                    style={styles.activityIndicator}
+                  />
+                )}
+              </View>
+              <Feather
+                name="camera"
+                size={24}
+                color={colors.ui.tertiary}
+                style={styles.cameraIcon}
+              />
+            </Container>
+
+            <Container
+              style={styles.mediaButton}
+              onPress={() => handleItemPress("2")}
+            >
+              <View style={styles.coverContainer}>
+                <Card.Cover key="2" style={styles.cover} source={images[1]} />
+                {isBackLoading && (
+                  <ActivityIndicator
+                    size={"large"}
+                    color={colors.ui.accent2}
+                    style={styles.activityIndicator}
+                  />
+                )}
+              </View>
+              <Feather
+                name="camera"
+                size={24}
+                color={colors.ui.tertiary}
+                style={styles.cameraIcon}
+              />
+            </Container>
+
+            <Container
+              style={styles.mediaButton}
+              onPress={() => handleItemPress("3")}
+            >
+              <View style={styles.coverContainer}>
+                <Card.Cover key="3" style={styles.cover} source={images[2]} />
+                {isSideLoading && (
+                  <ActivityIndicator
+                    size={"large"}
+                    color={colors.ui.accent2}
+                    style={styles.activityIndicator}
+                  />
+                )}
+              </View>
+              <Feather
+                name="camera"
+                size={24}
+                color={colors.ui.tertiary}
+                style={styles.cameraIcon}
+              />
+            </Container>
+          </View>
+
+          <Text style={{ marginTop: 30 }}></Text>
+        </Card>
         <View style={styles.topContainer}>
-          <PageTitle title="Log Progress" />
+          <PageTitle title="Log Progress" textStyle={styles.pageTitleStyle} />
           <Text style={styles.about} numberOfLines={2}>
             {todayDate}
           </Text>
 
           <View>
             <Divider />
-
+            <View style={{ marginBottom: 10 }}></View>
             <Input
               id="note"
               label="note"
@@ -296,29 +316,14 @@ const LogProgress = ({ navigation }) => {
               onInputChanged={inputChangedHandler}
               autoCapitalize="none"
               errorText={formState.inputValidities["note"]}
-              initialValue=""
+              initialValue={note}
             />
             <Input
               id="weight"
               label="weight"
               icon="weight"
               iconPack={FontAwesome5}
-              onInputChanged={
-                inputChangedHandler
-              } /* {(inputId, inputValue) => {
-                console.log(
-                  `-------------oninputChange ${inputId} ${inputValue}`
-                );
-                if (parseInt(inputValue) <= 0 || parseInt(inputValue) >= 1000) {
-                  setWeightErrorText("Please enter a valid weight");
-                  console.log(`under if statement ${weightErrorText}`);
-                  console.log(`${weightErrorText}`);
-                } else {
-                  console.log(`under if else statement ${weightErrorText}`);
-                  setWeightErrorText("");
-                }
-                setWeight(inputValue);
-              }} */
+              onInputChanged={inputChangedHandler}
               placeholder={`Enter your weight in Kg`}
               keyboardType="numeric"
               errorText={weightErrorText}
@@ -331,7 +336,7 @@ const LogProgress = ({ navigation }) => {
 
             {isLoading ? (
               <ActivityIndicator
-                size={"small"}
+                size={"Large"}
                 color={colors.ui.accent2}
                 style={{ marginTop: 10 }}
               />
@@ -356,11 +361,11 @@ const LogProgress = ({ navigation }) => {
         onTakePhoto={takePhoto}
         onPickImage={pickImage}
       />
-      <TransparentImageSlider
+      {/*  <TransparentImageSlider
         isVisible={imageSliderVisible}
         onClose={handleCloseMenu}
         images={images}
-      />
+      /> */}
     </PageContainer>
   );
 };
@@ -393,12 +398,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.ui.accent2, //theme.colors.ui.primary, //"white",
     marginTop: 40,
+
     minHeight: 400, // Use minHeight instead of height
     flex: 1, // Add flex: 1 to allow the card to expand
     //marginVertical: 28,
     // marginHorizontal: 8,
   },
-  cover: {
+  cover1: {
     //flex: 1,
     marginHorizontal: 4,
     marginVertical: 4,
@@ -407,6 +413,21 @@ const styles = StyleSheet.create({
     backgroundColor: colors.ui.tertiary,
     //height: 200,
   }, //"white" },
+  coverContainer: {
+    //  flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cover: {
+    width: "95%",
+    height: 350,
+    backgroundColor: colors.ui.tertiary,
+    // marginHorizontal: 4,
+    // marginVertical: 4,
+  },
+  activityIndicator: {
+    position: "absolute",
+  },
   inputContainer: {
     width: "100%",
     //backgroundColor: "red",
@@ -485,5 +506,10 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
     color: colors.text.primary,
     marginVertical: 8,
+  },
+  pageTitleStyle: {
+    fontFamily: "black",
+    letterSpacing: 0.5,
+    fontSize: 26,
   },
 });
