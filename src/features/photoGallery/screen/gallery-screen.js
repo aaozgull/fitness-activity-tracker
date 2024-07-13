@@ -31,6 +31,11 @@ export const GalleryScreen = ({ navigation }) => {
     });
   }
   progressDataList.reverse();
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => <HeaderLogo style={{ marginRight: 150 }} />,
+    });
+  }, []);
   //console.log("----------progressDataList", progressDataList);
   /*   useEffect(() => {
     navigation.setOptions({

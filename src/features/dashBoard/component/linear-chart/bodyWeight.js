@@ -3,33 +3,49 @@ import { LineChart } from "react-native-chart-kit";
 
 import Heading from "../../../../components/utility/Heading";
 import { theme } from "../../../../infrastructure/theme";
+import { useSelector } from "react-redux";
 
 //import ExpenseItem from './ExpenseItem';
 
 function BodyWeight() {
+  const progressData =
+    useSelector((state) => state.progress.progressData) || [];
+
+  const weightList = [];
+  const dateList = [];
+  for (const key in progressData) {
+    const progress = progressData[key];
+    const date = new Date(progress.createdAt);
+    const month = date.getMonth() + 1; // getMonth() is zero-based, so we add 1
+    const day = date.getDate();
+
+    const formattedDate = `${month}/${day}`;
+    dateList.push(formattedDate);
+    const weight = parseFloat(progress.weight); // Use parseFloat to handle numeric strings
+    if (!isNaN(weight)) {
+      // Check if the parsed value is a valid number
+      weightList.push(weight);
+    } else {
+      weightList.push(0);
+      console.log(`Invalid weight value: ${progress.weight} at key: ${key}`);
+    }
+  }
   return (
     <View>
       <Heading title="Body Weight" />
       <LineChart
         data={{
-          labels: ["Jan", "Feb", "Mar", "Apr", "May", "June"],
+          labels: dateList,
           datasets: [
             {
-              data: [
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-              ],
+              data: weightList,
             },
           ],
         }}
         width={Dimensions.get("window").width / 2} // from react-native
         height={170}
-        yAxisLabel="$"
-        yAxisSuffix="k"
+        yAxisLabel="" // Remove $ if it's not relevant to weight
+        yAxisSuffix="kg" // Change to kg or any other unit relevant to weight
         yAxisInterval={1} // optional, defaults to 1
         chartConfig={{
           backgroundColor: theme.colors.ui.primary, //"#2d0689", //"#e26a00",
