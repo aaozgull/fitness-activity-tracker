@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "yellow",
     flexDirection: "row",
     alignContent: "space-between",
-    height: "100%",
+    //height: "100%",
     // alignItems: "center",
   },
   errorContainer: {
@@ -398,21 +398,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.ui.accent2, //theme.colors.ui.primary, //"white",
     marginTop: 40,
-
     minHeight: 400, // Use minHeight instead of height
-    flex: 1, // Add flex: 1 to allow the card to expand
-    //marginVertical: 28,
-    // marginHorizontal: 8,
   },
-  cover1: {
-    //flex: 1,
-    marginHorizontal: 4,
-    marginVertical: 4,
-    minHeight: 350,
-    // marginTop: 100,
-    backgroundColor: colors.ui.tertiary,
-    //height: 200,
-  }, //"white" },
+
   coverContainer: {
     //  flex: 1,
     justifyContent: "center",

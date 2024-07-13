@@ -3,64 +3,95 @@ import { Text, StyleSheet, View } from "react-native";
 import { Card } from "react-native-paper";
 import { theme } from "../../../infrastructure/theme/index";
 
-export const PhotoInfoCard = ({ photo = {} }) => {
-  const {
-    description = "Some photo",
-    photos = [
-      "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Ym9keWJ1aWxkaW5nfGVufDB8fDB8fHww",
-      "https://media.istockphoto.com/id/1129798528/photo/everything-you-ve-ever-wanted-is-on-the-other-side-of-fear-dark-skinned-sportsman-jumping.webp?b=1&s=170667a&w=0&k=20&c=CPj_nQCf9Q5B9MJEYkuLxr8ycejYbWr6JlTpgQdxBdo=",
-      "https://media.istockphoto.com/id/1084251084/photo/personal-weight-training-in-the-gym.webp?b=1&s=170667a&w=0&k=20&c=MuGitA7NEZnauCllbGq9fBc-LymyWi3Ele3sgxReiSM=",
-    ],
-    date = "2022-02-18",
-  } = photo;
+import front from "../../../../assets/images/front.jpg";
+import back from "../../../../assets/images/back.jpg";
+import side from "../../../../assets/images/side.jpg";
 
+export const PhotoInfoCard = ({ progressPhoto }) => {
   return (
     <Card elevation={5} style={styles.card}>
-      <Text style={styles.title}>{date}</Text>
+      <Text style={styles.title}>{progressPhoto.todayDate}</Text>
       <View style={styles.container}>
-        <Card.Cover key="1" style={styles.cover} source={{ uri: photos[0] }} />
-
-        <Card.Cover
-          key="2" //{description}
-          style={styles.cover}
-          source={{ uri: photos[1] }}
-        />
-        <Card.Cover
-          key="3" //{description}
-          style={styles.cover}
-          source={{ uri: photos[2] }}
-        />
+        <View style={styles.coverContainer}>
+          <Card.Cover
+            key="1"
+            style={styles.cover}
+            source={
+              progressPhoto.frontImage === 24 ? front : progressPhoto.backImage
+            }
+          />
+        </View>
+        <View style={styles.coverContainer}>
+          <Card.Cover
+            key="2"
+            style={styles.cover}
+            source={
+              progressPhoto.backImage === 25 ? back : progressPhoto.backImage
+            }
+          />
+        </View>
+        <View style={styles.coverContainer}>
+          <Card.Cover
+            key="3"
+            style={styles.cover}
+            source={
+              progressPhoto.sideImage === 26 ? side : progressPhoto.sideImage
+            }
+          />
+        </View>
       </View>
-      <Text style={styles.title}>{description}</Text>
+      <Text style={styles.note}>{progressPhoto.note}</Text>
+      <Text style={styles.weight}>{progressPhoto.weight}KG</Text>
     </Card>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
-    //backgroundColor: theme.colors.bg.primary, //"#2d0689",
     flexDirection: "row",
     alignContent: "space-between",
-    // alignItems: "center",
   },
-
   card: {
-    backgroundColor: theme.colors.ui.accent2, //"white",
-    marginVertical: theme.spaceInNumber[3],
-    marginHorizontal: theme.spaceInNumber[3],
+    flex: 1,
+    backgroundColor: theme.colors.ui.accent2,
+    marginTop: 40,
+    marginHorizontal: 20,
+    minHeight: 400,
+  },
+  coverContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   cover: {
-    flex: 1,
-    margin: theme.spaceInNumber[3],
+    width: "95%",
+    height: 350,
     backgroundColor: theme.colors.ui.tertiary,
-  }, //"white" },
+  },
   title: {
     padding: theme.spaceInNumber[3],
     color: theme.colors.text.primary,
-    fontFamily: "bold",
+    fontFamily: "regular",
     letterSpacing: 0.3,
-    fontSize: theme.fontSizesInNumber[2],
-    fontWeight: `${theme.fontWeights.bold}`,
+    fontSize: 18,
+    // fontWeight: `${theme.fontWeights.bold}`,
+  },
+  note: {
+    padding: theme.spaceInNumber[3],
+    color: theme.colors.text.primary,
+    fontFamily: "regular",
+    letterSpacing: 0.3,
+    fontSize: 18,
+    // fontWeight: `${theme.fontWeights.bold}`,
+  },
+  weight: {
+    position: "absolute",
+    bottom: 1,
+    right: 10,
+    padding: theme.spaceInNumber[3],
+    color: theme.colors.text.primary,
+    fontFamily: "regular",
+    letterSpacing: 0.3,
+    fontSize: 18,
   },
 });

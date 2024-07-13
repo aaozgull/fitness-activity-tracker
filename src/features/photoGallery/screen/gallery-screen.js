@@ -1,108 +1,37 @@
 import React, { useEffect } from "react";
-import { FlatList, View, Text, StyleSheet } from "react-native";
+import {
+  FlatList,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 //import { HeaderButtons, Item } from "react-navigation-header-buttons";
 //import { ActivityIndicator, Colors } from "react-native-paper";
-
+import { Feather, FontAwesome5 } from "@expo/vector-icons";
 import { PhotoInfoCard } from "../component/photo-info-card.component";
 import { theme } from "../../../infrastructure/theme/index";
 import Heading from "../../../components/utility/Heading";
 import HeaderLogo from "../../../components/utility/HeaderLogo";
 import CustomHeaderButton from "../../../components/utility/CustomHeaderButton";
-
-const photosData = [
-  {
-    id: "e1",
-    description: "Some photo",
-    photos: [
-      "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Ym9keWJ1aWxkaW5nfGVufDB8fDB8fHww",
-      "https://media.istockphoto.com/id/1129798528/photo/everything-you-ve-ever-wanted-is-on-the-other-side-of-fear-dark-skinned-sportsman-jumping.webp?b=1&s=170667a&w=0&k=20&c=CPj_nQCf9Q5B9MJEYkuLxr8ycejYbWr6JlTpgQdxBdo=",
-      "https://media.istockphoto.com/id/1084251084/photo/personal-weight-training-in-the-gym.webp?b=1&s=170667a&w=0&k=20&c=MuGitA7NEZnauCllbGq9fBc-LymyWi3Ele3sgxReiSM=",
-    ],
-    date: "2022-02-18",
-  },
-  {
-    id: "e2",
-    description: "Some photo",
-    photos: [
-      "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Ym9keWJ1aWxkaW5nfGVufDB8fDB8fHww",
-      "https://media.istockphoto.com/id/1129798528/photo/everything-you-ve-ever-wanted-is-on-the-other-side-of-fear-dark-skinned-sportsman-jumping.webp?b=1&s=170667a&w=0&k=20&c=CPj_nQCf9Q5B9MJEYkuLxr8ycejYbWr6JlTpgQdxBdo=",
-      "https://media.istockphoto.com/id/1084251084/photo/personal-weight-training-in-the-gym.webp?b=1&s=170667a&w=0&k=20&c=MuGitA7NEZnauCllbGq9fBc-LymyWi3Ele3sgxReiSM=",
-    ],
-    date: "2022-02-18",
-  },
-  {
-    id: "e3",
-    description: "Some photo",
-    photos: [
-      "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Ym9keWJ1aWxkaW5nfGVufDB8fDB8fHww",
-      "https://media.istockphoto.com/id/1129798528/photo/everything-you-ve-ever-wanted-is-on-the-other-side-of-fear-dark-skinned-sportsman-jumping.webp?b=1&s=170667a&w=0&k=20&c=CPj_nQCf9Q5B9MJEYkuLxr8ycejYbWr6JlTpgQdxBdo=",
-      "https://media.istockphoto.com/id/1084251084/photo/personal-weight-training-in-the-gym.webp?b=1&s=170667a&w=0&k=20&c=MuGitA7NEZnauCllbGq9fBc-LymyWi3Ele3sgxReiSM=",
-    ],
-    date: "2022-02-18",
-  },
-  {
-    id: "e4",
-    description: "Some photo",
-    photos: [
-      "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Ym9keWJ1aWxkaW5nfGVufDB8fDB8fHww",
-      "https://media.istockphoto.com/id/1129798528/photo/everything-you-ve-ever-wanted-is-on-the-other-side-of-fear-dark-skinned-sportsman-jumping.webp?b=1&s=170667a&w=0&k=20&c=CPj_nQCf9Q5B9MJEYkuLxr8ycejYbWr6JlTpgQdxBdo=",
-      "https://media.istockphoto.com/id/1084251084/photo/personal-weight-training-in-the-gym.webp?b=1&s=170667a&w=0&k=20&c=MuGitA7NEZnauCllbGq9fBc-LymyWi3Ele3sgxReiSM=",
-    ],
-    date: "2022-02-18",
-  },
-  {
-    id: "e5",
-    description: "Some photo",
-    photos: [
-      "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Ym9keWJ1aWxkaW5nfGVufDB8fDB8fHww",
-      "https://media.istockphoto.com/id/1129798528/photo/everything-you-ve-ever-wanted-is-on-the-other-side-of-fear-dark-skinned-sportsman-jumping.webp?b=1&s=170667a&w=0&k=20&c=CPj_nQCf9Q5B9MJEYkuLxr8ycejYbWr6JlTpgQdxBdo=",
-      "https://media.istockphoto.com/id/1084251084/photo/personal-weight-training-in-the-gym.webp?b=1&s=170667a&w=0&k=20&c=MuGitA7NEZnauCllbGq9fBc-LymyWi3Ele3sgxReiSM=",
-    ],
-    date: "2022-02-18",
-  },
-  {
-    id: "e6",
-    description: "Some photo",
-    photos: [
-      "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Ym9keWJ1aWxkaW5nfGVufDB8fDB8fHww",
-      "https://media.istockphoto.com/id/1129798528/photo/everything-you-ve-ever-wanted-is-on-the-other-side-of-fear-dark-skinned-sportsman-jumping.webp?b=1&s=170667a&w=0&k=20&c=CPj_nQCf9Q5B9MJEYkuLxr8ycejYbWr6JlTpgQdxBdo=",
-      "https://media.istockphoto.com/id/1084251084/photo/personal-weight-training-in-the-gym.webp?b=1&s=170667a&w=0&k=20&c=MuGitA7NEZnauCllbGq9fBc-LymyWi3Ele3sgxReiSM=",
-    ],
-    date: "2022-02-18",
-  },
-  {
-    id: "e7",
-    description: "Some photo",
-    photos: [
-      "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Ym9keWJ1aWxkaW5nfGVufDB8fDB8fHww",
-      "https://media.istockphoto.com/id/1129798528/photo/everything-you-ve-ever-wanted-is-on-the-other-side-of-fear-dark-skinned-sportsman-jumping.webp?b=1&s=170667a&w=0&k=20&c=CPj_nQCf9Q5B9MJEYkuLxr8ycejYbWr6JlTpgQdxBdo=",
-      "https://media.istockphoto.com/id/1084251084/photo/personal-weight-training-in-the-gym.webp?b=1&s=170667a&w=0&k=20&c=MuGitA7NEZnauCllbGq9fBc-LymyWi3Ele3sgxReiSM=",
-    ],
-    date: "2022-02-18",
-  },
-  {
-    id: "e8",
-    description: "Some photo",
-    photos: [
-      "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Ym9keWJ1aWxkaW5nfGVufDB8fDB8fHww",
-      "https://media.istockphoto.com/id/1129798528/photo/everything-you-ve-ever-wanted-is-on-the-other-side-of-fear-dark-skinned-sportsman-jumping.webp?b=1&s=170667a&w=0&k=20&c=CPj_nQCf9Q5B9MJEYkuLxr8ycejYbWr6JlTpgQdxBdo=",
-      "https://media.istockphoto.com/id/1084251084/photo/personal-weight-training-in-the-gym.webp?b=1&s=170667a&w=0&k=20&c=MuGitA7NEZnauCllbGq9fBc-LymyWi3Ele3sgxReiSM=",
-    ],
-    date: "2022-02-18",
-  },
-  {
-    id: "e9",
-    description: "Some photo",
-    photos: [
-      "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Ym9keWJ1aWxkaW5nfGVufDB8fDB8fHww",
-      "https://media.istockphoto.com/id/1129798528/photo/everything-you-ve-ever-wanted-is-on-the-other-side-of-fear-dark-skinned-sportsman-jumping.webp?b=1&s=170667a&w=0&k=20&c=CPj_nQCf9Q5B9MJEYkuLxr8ycejYbWr6JlTpgQdxBdo=",
-      "https://media.istockphoto.com/id/1084251084/photo/personal-weight-training-in-the-gym.webp?b=1&s=170667a&w=0&k=20&c=MuGitA7NEZnauCllbGq9fBc-LymyWi3Ele3sgxReiSM=",
-    ],
-    date: "2022-02-18",
-  },
-];
+import { useSelector } from "react-redux";
 
 export const GalleryScreen = ({ navigation }) => {
+  const progressData =
+    useSelector((state) => state.progress.progressData) || [];
+
+  // console.log("------------progressData", progressData);
+
+  const progressDataList = [];
+  for (const key in progressData) {
+    const progress = progressData[key];
+    progressDataList.push({
+      key,
+      ...progress,
+    });
+  }
+  progressDataList.reverse();
+  //console.log("----------progressDataList", progressDataList);
   /*   useEffect(() => {
     navigation.setOptions({
       headerTitle: () => <HeaderLogo style={{ marginRight: 150 }} />,
@@ -122,27 +51,41 @@ export const GalleryScreen = ({ navigation }) => {
   }, []); */
   return (
     <View style={styles.container}>
-      <Heading title="My Photos" style={styles.headingContainer} />
+      <View style={styles.row}>
+        <PageTitle
+          title="Add Progress Photos"
+          textStyle={styles.pageTitleStyle}
+        />
+
+        <TouchableOpacity
+          style={{ flex: 1, marginBottom: 40 }}
+          onPress={() => navigation.navigate("LogProgressScreen")}
+        >
+          <FontAwesome5
+            name="plus"
+            size={24}
+            color={theme.colors.ui.accent}
+            style={styles.plusIcon}
+          />
+        </TouchableOpacity>
+      </View>
+
       <Text style={styles.title}>
-        Track your progress here, take regular snaps ans mark each photo with
+        Track your progress here, take regular snaps and mark each photo with
         your current weight.
       </Text>
 
-      <Heading
-        title="Progress Photos"
-        style={{ marginBottom: 20 }}
-        dateShow={false}
-      />
-      {photosData.length === 0 && (
+      <Heading title="My Photos" style={styles.headingContainer} />
+      {progressDataList.length === 0 && (
         <Text style={styles.title}>No progress photos have been uploaded</Text>
       )}
-      {photosData.length > 0 && (
+      {progressDataList.length > 0 && (
         <FlatList
-          data={photosData}
+          data={progressDataList}
           renderItem={({ item }) => {
-            return <PhotoInfoCard photo={item} />;
+            return <PhotoInfoCard progressPhoto={item} />;
           }}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.key}
         />
       )}
     </View>
@@ -154,6 +97,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.bg.secondary, //"#2d0689",
   },
+  row: { flexDirection: "row", alignContent: "space-between" },
   headingContainer: {
     // flex: 1,
     backgroundColor: theme.colors.ui.primary,
@@ -165,9 +109,20 @@ const styles = StyleSheet.create({
     borderBottomColor: "#cccccc",
   },
   title: {
-    margin: 10,
+    marginVertical: 20,
+    marginHorizontal: 10,
     fontFamily: "medium",
     fontSize: 16,
     letterSpacing: 0.3,
+  },
+  pageTitleStyle: {
+    fontFamily: "black",
+    letterSpacing: 0.5,
+    fontSize: 26,
+  },
+  plusIcon: {
+    position: "absolute",
+    top: 20,
+    right: 10,
   },
 });
