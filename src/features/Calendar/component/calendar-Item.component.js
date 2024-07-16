@@ -74,6 +74,7 @@ export const CalendarItem = ({ date, selectedDate, calendarId }) => {
             color={menuItem.backgroundColor}
             icon={menuItem.icon}
             name={menuItem.name}
+            screen={menuItem.screen}
             style={styles.toDoItem}
           />
         ))}

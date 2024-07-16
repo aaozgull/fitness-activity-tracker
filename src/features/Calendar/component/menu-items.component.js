@@ -59,6 +59,7 @@ const MenuItems = ({ onSelectedMenuItem }) => {
       backgroundColor: colors.ui.tertiary,
       icon: "FontAwesome5",
       isChecked: false,
+      screen: "TodayWorkoutScreen",
     },
     {
       name: "shoe-sneaker",
@@ -73,6 +74,7 @@ const MenuItems = ({ onSelectedMenuItem }) => {
       backgroundColor: colors.ui.accent,
       icon: "faUtensils",
       isChecked: false,
+      screen: "RecipeScreen",
     },
     {
       name: "camera",
@@ -80,6 +82,7 @@ const MenuItems = ({ onSelectedMenuItem }) => {
       backgroundColor: colors.ui.yellow,
       icon: "Ionicons",
       isChecked: false,
+      screen: "LogProgressScreen",
     },
     {
       name: "weight-scale",
@@ -87,6 +90,7 @@ const MenuItems = ({ onSelectedMenuItem }) => {
       backgroundColor: colors.ui.fiftary,
       icon: "faWeightScale",
       isChecked: false,
+      screen: "BodyStatsScreen",
     },
     {
       name: "book",
@@ -94,6 +98,7 @@ const MenuItems = ({ onSelectedMenuItem }) => {
       backgroundColor: colors.ui.error500,
       icon: "Ionicons",
       isChecked: false,
+      screen: "ReadBooksScreen",
     },
     {
       name: "sleep",
@@ -101,6 +106,7 @@ const MenuItems = ({ onSelectedMenuItem }) => {
       backgroundColor: colors.ui.green,
       icon: "MaterialCommunityIcons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
   ];
 

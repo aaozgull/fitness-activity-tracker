@@ -25,19 +25,19 @@ const calendarActivitiesSlice = createSlice({
       if (!state.calendarActivitiesData[calendarId]) {
         state.calendarActivitiesData[calendarId] = {};
       }
-      console.log(
+      /*  console.log(
         "Before adding activity:",
         state.calendarActivitiesData[calendarId]
-      );
+      ); */
       state.calendarActivitiesData[calendarId] = {
         ...state.calendarActivitiesData[calendarId],
         [activity.id]: activity,
       };
 
-      console.log(
+      /* console.log(
         "After adding activity:",
         state.calendarActivitiesData[calendarId]
-      );
+      ); */
     },
     updateCalendarActivity: (state, action) => {
       const { calendarId, activityId, isChecked } = action.payload;

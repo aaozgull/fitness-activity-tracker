@@ -15,6 +15,7 @@ function renderExpenseItem(itemData) {
       color={itemData.item.backgroundColor}
       icon={itemData.item.icon}
       name={itemData.item.name}
+      screen={itemData.item.screen}
       style={styles.toDoItem}
     />
   );

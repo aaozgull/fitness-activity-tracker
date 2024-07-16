@@ -30,9 +30,11 @@ const ThumbUpScreen = (props) => {
       },
     });
   }, []); */
-  function continueHandler() {
-    // dispatch(setIsNewRegistration());
-  }
+
+  setTimeout(() => {
+    props.navigation.goBack();
+  }, 6000);
+
   return (
     <PageContainer style={styles.container}>
       <View style={styles.animated}>
@@ -41,6 +43,7 @@ const ThumbUpScreen = (props) => {
           autoPlay
           loop
           resizeMode="cover"
+          style={{ width: 350, height: 350 }}
           source={require("../../../../assets/thumbUp.json")}
         />
       </View>
@@ -69,7 +72,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     alignItems: "center",
-    marginTop: 100,
+    // marginTop: 100,
   },
 
   icon: {

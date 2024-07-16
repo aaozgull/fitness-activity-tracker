@@ -1,3 +1,5 @@
+import { getAuth } from "firebase/auth";
+
 import { child, getDatabase, push, ref, update } from "firebase/database";
 import { getFirebaseApp } from "../firebaseHelper";
 import { useDispatch } from "react-redux";
@@ -7,6 +9,13 @@ import { startOfMonth, eachDayOfInterval, addMonths } from "date-fns";
 import { setCalendarData } from "../../store/calendarSlice";
 
 export const createCalendar = async (loggedInUserId, dispatch) => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (!user) {
+    console.error("User is not authenticated");
+    return;
+  }
   //const dispatch = useDispatch();
   const app = getFirebaseApp();
   const dbRef = ref(getDatabase(app));
@@ -71,21 +80,38 @@ export const addActivitiesData = async (
   loggedInUserId,
   calendarItemData
 ) => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (!user) {
+    console.error("User is not authenticated");
+    return;
+  }
+
   const app = getFirebaseApp();
   const dbRef = ref(getDatabase());
   const activitiesRef = child(dbRef, `activities/${CalendarId}`);
-  //console.log(` activitiesRef ${CalendarId}`);
+
   const CalendarItemData = {
     setBy: loggedInUserId,
     setAt: new Date().toISOString(),
     ...calendarItemData,
   };
 
-  //await push(activitiesRef, CalendarItemData);
-  const newActivityRef = await push(activitiesRef, CalendarItemData);
-  const activityId = newActivityRef.key;
+  console.log("Writing data to:", activitiesRef.toString());
+  console.log("Data being written:", CalendarItemData);
 
-  return activityId;
+  const newActivityRef = await push(activitiesRef, CalendarItemData).catch(
+    (error) => {
+      console.error("Error adding activity:", error);
+    }
+  );
+
+  if (newActivityRef) {
+    const activityId = newActivityRef.key;
+    console.log("New activity added with ID:", activityId);
+    return activityId;
+  }
 };
 
 export const updateActivitiesData = async (
@@ -93,6 +119,14 @@ export const updateActivitiesData = async (
   activityId,
   checked
 ) => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (!user) {
+    console.error("User is not authenticated");
+    return;
+  }
+
   const app = getFirebaseApp();
   const dbRef = ref(getDatabase(app));
   const calendarItemRef = child(
@@ -100,7 +134,10 @@ export const updateActivitiesData = async (
     `activities/${calendarItemId}/${activityId}`
   );
 
-  await update(calendarItemRef, {
-    checked: checked,
+  console.log("Updating data at:", calendarItemRef.toString());
+  console.log("Updating checked value to:", checked);
+
+  await update(calendarItemRef, { checked: checked }).catch((error) => {
+    console.error("Error updating activity:", error);
   });
 };

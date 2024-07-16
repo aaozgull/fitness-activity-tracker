@@ -11,10 +11,13 @@ import { Divider } from "react-native-paper";
 const ReadBooksScreen = (props) => {
   function continueHandler() {
     // dispatch(setIsNewRegistration());
+    props.navigation.navigate("ThumbUp");
   }
   return (
     <PageContainer style={styles.container}>
-      <Text>First day of the streak. Well Done!</Text>
+      <Text style={[styles.text, { marginTop: 100 }]}>
+        First day of the streak. Well Done!
+      </Text>
       <Divider />
       <View style={styles.icon}>
         <FontAwesome name="book" size={100} color={colors.ui.accent2} />
@@ -38,19 +41,14 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     alignItems: "center",
-    marginTop: 150,
+    // marginTop: 150,
   },
 
   icon: {
-    marginTop: 100,
+    marginTop: 50,
     borderRadius: 50,
-    //borderColor: colors.ui.accent,
-    // borderWidth: 15,
-    //backgroundColor: colors.ui.accent2,
 
     padding: 10,
-    //borderWidth: 2,
-    //borderStyle: "solid",
   },
   text: {
     fontFamily: "medium",

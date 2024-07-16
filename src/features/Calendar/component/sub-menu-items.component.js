@@ -104,6 +104,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "FontAwesome5",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "walk",
@@ -111,6 +112,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "Ionicons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "bicycle",
@@ -118,6 +120,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "Ionicons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "rowing",
@@ -125,6 +128,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "MaterialIcons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "camera",
@@ -132,6 +136,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "Ionicons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "stairs-up",
@@ -139,6 +144,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "MaterialCommunityIcons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "american-football-outline",
@@ -146,6 +152,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "Ionicons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     /* <MaterialCommunityIcons name="football-australian" size={24} color="black" /> */
     {
@@ -154,6 +161,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "Ionicons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "badminton",
@@ -161,6 +169,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "MaterialCommunityIcons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "baseball-bat-ball",
@@ -168,6 +177,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "faBaseballBall",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "basketball-outline",
@@ -175,6 +185,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "Ionicons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "sports-cricket",
@@ -182,6 +193,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "MaterialIcons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "dance-pole",
@@ -189,6 +201,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "MaterialCommunityIcons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "dance-ballroom",
@@ -196,6 +209,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "MaterialCommunityIcons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "group",
@@ -203,6 +217,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "FontAwesome",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "hiking",
@@ -210,6 +225,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "MaterialCommunityIcons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "weight-lifter",
@@ -217,6 +233,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "MaterialCommunityIcons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "sports-hockey",
@@ -224,6 +241,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "MaterialIcons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "jump-rope",
@@ -231,6 +249,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "MaterialCommunityIcons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "rowing",
@@ -238,6 +257,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "MaterialIcons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "barbell",
@@ -245,6 +265,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "Ionicons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "rugby",
@@ -252,6 +273,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "MaterialCommunityIcons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "skiing",
@@ -259,6 +281,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "FontAwesome5",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "skiing-nordic",
@@ -266,6 +289,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "FontAwesome5",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
 
     /*<MaterialCommunityIcons name="ski-water" size={24} color="black" />
@@ -276,6 +300,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "MaterialIcons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "baseball-outline",
@@ -283,6 +308,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "Ionicons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "soccer-ball-o",
@@ -290,6 +316,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "FontAwesome",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "person-swimming",
@@ -297,6 +324,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "faSwimmer",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "sports-tennis",
@@ -304,6 +332,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "MaterialIcons",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
     {
       name: "table-tennis",
@@ -311,6 +340,7 @@ const SubMenuItems = ({
       backgroundColor: colors.ui.accent2,
       icon: "FontAwesome5",
       isChecked: false,
+      screen: "ThumbUpScreen",
     },
   ];
   const handleBack = () => {

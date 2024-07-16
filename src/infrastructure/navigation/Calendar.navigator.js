@@ -9,6 +9,7 @@ import ReadBooksScreen from "../../features/Calendar/screen/ReadBooksScreen";
 import ThumbUpScreen from "../../features/Calendar/screen/ThumbUpScreen";
 import TodayWorkoutScreen from "../../features/Calendar/screen/TodayWorkoutScreen";
 import RestScreen from "../../features/Calendar/screen/RestScreen";
+import BodyStatsNavigator from "./BodyStats.navigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,11 +26,32 @@ const CalendarNavigator = () => {
         }}
       />
 
-      <Stack.Screen name="Recipes" component={RecipesNavigator} />
+      <Stack.Screen
+        name="Recipes"
+        component={RecipesNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="BodyStats"
+        component={BodyStatsNavigator}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="TimerScreen" component={TimerScreen} />
-      <Stack.Screen name="ReadBooks" component={ReadBooksScreen} />
-      <Stack.Screen name="ThumbUp" component={ThumbUpScreen} />
-      <Stack.Screen name="TodayWorkout" component={TodayWorkoutScreen} />
+      <Stack.Screen
+        name="ReadBooks"
+        component={ReadBooksScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ThumbUp"
+        component={ThumbUpScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="TodayWorkout"
+        component={TodayWorkoutScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="Rest"
         component={RestScreen}

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Checkbox from "expo-checkbox";
+import { useDispatch } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 import { theme } from "../../../../infrastructure/theme/index";
 import IconWithText from "../../../../components/utility/IconWithText";
 import { updateActivitiesData } from "../../../../utils/actions/calendarActions";
 import { updateCalendarActivity } from "../../../../store/calendarActivitiesSlice";
-import { useDispatch } from "react-redux";
 
 function ToDoItem({
   activityId,
@@ -16,17 +17,17 @@ function ToDoItem({
   color,
   icon,
   name,
+  screen,
   style,
 }) {
   const [isChecked, setChecked] = useState(checked);
-  // console.log(`ToDoItem ${description} ${name} ${activityId} ${calendarId}`);
+  const navigation = useNavigation();
+  // console.log(`ToDoItem ${description} ${name} ${checked} ${screen}`);
   const dispatch = useDispatch();
   const setCheckBox = async () => {
     setChecked(!isChecked);
     try {
-      console.log(
-        `ToDoItem ${description} ${name} ${activityId} ${calendarId}`
-      );
+      // console.log(`setCheckBox ${description} ${name} ${checked} ${screen}`);
 
       await updateActivitiesData(calendarId, activityId, isChecked);
       dispatch(
@@ -36,6 +37,13 @@ function ToDoItem({
           isChecked,
         })
       );
+      if (!checked) {
+        if (screen) {
+          navigation.navigate(screen);
+        } else {
+          console.error("Screen name is not provided or is invalid");
+        }
+      }
     } catch (error) {
       console.error("Error adding activity:", error);
     }

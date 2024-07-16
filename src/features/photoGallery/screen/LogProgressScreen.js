@@ -115,8 +115,16 @@ const LogProgress = ({ navigation }) => {
       backImage: images[1],
       sideImage: images[2],
     };
+    /*  console.log("newImages", images[0]);
+    console.log("newImages", images[1]);
+    console.log("newImages", images[2]); */
 
     try {
+      /*  console.log(
+        " ----------------logProgress newProgressData",
+        updatedValues
+      ); */
+
       setIsLoading(true);
       const progresskey = await logProgress(userData.userId, updatedValues);
       //dispatch(updateLoggedInUserData({ newData: updatedValues }));
@@ -158,6 +166,7 @@ const LogProgress = ({ navigation }) => {
           newImages[2] = { uri: uploadUrl };
           setIsSideLoading(false);
         }
+        // console.log("newImages", newImages);
         return newImages;
       });
     },

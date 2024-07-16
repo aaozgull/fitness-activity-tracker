@@ -60,18 +60,20 @@ const DashBoardNavigator = (props) => {
 
   useEffect(() => {
     console.log("Subscribing to firebase listeners");
-
+    //console.log("==============isLoading1", isLoading);
     const app = getFirebaseApp();
     const dbRef = ref(getDatabase(app));
 
     /////////////Get user Calendar/////////////////////
+    // console.log(`/////////////Get user Calendar/////////////////////`);
+    // console.log(`//////Get user Calendar////////isLoading2`, isLoading);
     const userCalendarRef = child(dbRef, `userCalendar/${userData.userId}`);
     const refs = [userCalendarRef];
 
     onValue(userCalendarRef, (querySnapshot) => {
       const calendarIdsData = querySnapshot.val() || {};
       const calendarIds = Object.values(calendarIdsData);
-      console.log(`calendarIds ${calendarIds}`);
+      // console.log(`calendarIds ${calendarIds}`);
       const calendarData = {};
       let calendarFoundCount = 0;
 
@@ -91,9 +93,10 @@ const DashBoardNavigator = (props) => {
           }
 
           if (calendarFoundCount >= calendarIds.length) {
+            //   console.log(`dispatch(setCalendarData)`);
             dispatch(setCalendarData({ calendarData: calendarData }));
             //console.log(`dispatch(setCalendarData) ${calendarData}`);
-            setIsLoading(false);
+            // setIsLoading(false);
           }
         });
 
@@ -102,6 +105,8 @@ const DashBoardNavigator = (props) => {
 
         onValue(activitiesRef, (activitiesSnapshot) => {
           const calendarActivitiesData = activitiesSnapshot.val();
+          ///  console.log(`----------------dispatch(setCalendarActivitiesData)`);
+          //  console.log(`++++++++++++++++isLoading2`, isLoading);
           dispatch(
             setCalendarActivitiesData({
               calendarId,
@@ -114,6 +119,8 @@ const DashBoardNavigator = (props) => {
     ///////////////end User Calendar ///////////////////
 
     //////get User ProgressLog //////
+    //console.log(`----------------get User ProgressLog)`);
+    // console.log(`get User ProgressLog++++++++++++++++isLoading2`, isLoading);
 
     const userProgressRef = child(dbRef, `userProgress/${userData.userId}`);
     refs.push(userProgressRef);
@@ -121,7 +128,7 @@ const DashBoardNavigator = (props) => {
     onValue(userProgressRef, (querySnapshot) => {
       const progressIdsData = querySnapshot.val() || {};
       const progressIds = Object.values(progressIdsData);
-      console.log(`progressIds ${progressIds}`);
+      // console.log(`progressIds ${progressIds}`);
       const progressData = {};
       let progressFoundCount = 0;
 
@@ -145,8 +152,11 @@ const DashBoardNavigator = (props) => {
           }
 
           if (progressFoundCount >= progressIds.length) {
+            //  console.log(`----------------dispatch(setCalendarActivitiesData)`);
+            //  console.log(`++++++++++++++++isLoading2`, isLoading);
+
             dispatch(setProgressData({ progressData }));
-            console.log(`dispatch(setProgressData) ${progressData}`);
+            //console.log(`dispatch(setProgressData) ${progressData}`);
             //setIsLoading(false);
           }
         });
@@ -154,6 +164,8 @@ const DashBoardNavigator = (props) => {
     });
 
     //////end get User ProgressLog //////
+    //console.log(`----------------get userChats)`);
+    //console.log(`get userChats ++++++++++++++++isLoading2`, isLoading);
 
     const userChatsRef = child(dbRef, `userChats/${userData.userId}`);
     refs.push(userChatsRef);
@@ -161,7 +173,7 @@ const DashBoardNavigator = (props) => {
     onValue(userChatsRef, (querySnapshot) => {
       const chatIdsData = querySnapshot.val() || {};
       const chatIds = Object.values(chatIdsData);
-      console.log(`chatIds ${chatIds}`);
+      // console.log(`chatIds ${chatIds}`);
       const chatsData = {};
       let chatsFoundCount = 0;
 
@@ -199,8 +211,8 @@ const DashBoardNavigator = (props) => {
 
           if (chatsFoundCount >= chatIds.length) {
             dispatch(setChatsData({ chatsData }));
-            console.log(`dispatch(setChatsData) ${chatsData}`);
-            setIsLoading(false);
+            // console.log(`dispatch(setChatsData) ${chatsData}`);
+            // setIsLoading(false);
           }
         });
 
@@ -209,16 +221,13 @@ const DashBoardNavigator = (props) => {
 
         onValue(messagesRef, (messagesSnapshot) => {
           const messagesData = messagesSnapshot.val();
+          /*  console.log(
+            `----------------dispatch(setChatMessages({ chatId, messagesData })`
+          );
+          console.log(`++++++++++++++++isLoading2`, isLoading);
+ */
           dispatch(setChatMessages({ chatId, messagesData }));
         });
-
-        if (
-          calendarFoundCount == 0 ||
-          progressFoundCount == 0 ||
-          calendarFoundCount == 0
-        ) {
-          setIsLoading(false);
-        }
       }
     });
 
@@ -229,11 +238,30 @@ const DashBoardNavigator = (props) => {
     refs.push(userStarredMessagesRef);
     onValue(userStarredMessagesRef, (querySnapshot) => {
       const starredMessages = querySnapshot.val() ?? {};
+      /*  console.log(
+        `---------------- dispatch(setStarredMessages({ starredMessages })`
+      );
+      console.log(`++++++++++++++++isLoading2`, isLoading);
+ */
       dispatch(setStarredMessages({ starredMessages }));
     });
+    /*  if (
+      calendarFoundCount == 0 ||
+      progressFoundCount == 0 ||
+      chatsFoundCount == 0
+    ) {
+      console.log(`calendarFoundCount`, calendarFoundCount);
+      console.log(`progressFoundCount`, progressFoundCount);
+      console.log(`isLoading`, isLoading);
+      setIsLoading(false);
+    } */
+
     return () => {
       console.log("Unsubscribing firebase listeners");
+      //  console.log(`--545-------5------isLoading`, isLoading);
       refs.forEach((ref) => off(ref));
+      // setIsLoading(false);
+      //console.log(`--545-------------isLoading`, isLoading);
     };
   }, []);
 
