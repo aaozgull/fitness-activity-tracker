@@ -31,7 +31,7 @@ const RecipeDetails = ({ route, navigation }) => {
       <ScrollView>
         <Image style={styles.image} source={{ uri: item?.thumbnail_url }} />
         <TouchableOpacity
-          onPress={() => navigation.navigate("ReviewMealScreen")}
+          onPress={() => navigation.navigate("ReviewMealScreen", { item })}
           style={styles.addMealButton}
         >
           <FontAwesome5 name="plus" size={hp(4.5)} color={colors.ui.accent} />
