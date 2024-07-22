@@ -9,6 +9,9 @@ import { setProgressData } from "../../store/progressSlice";
 import { colors } from "../theme/colors";
 import commonStyles from "../../constants/commonStyles";
 
+import { setRecipesData, setHealthyRecipesData } from "../../store/recipeSlice";
+import { getRecipesList } from "../../features/recipes/http";
+
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BodyWeightDetail from "../../features/dashBoard/component/linear-chart/bodyWeightDetail";
 import { SettingsNavigator } from "./settings.navigator";
@@ -57,6 +60,32 @@ const DashBoardNavigator = (props) => {
 
   const userData = useSelector((state) => state.auth.userData);
   const storedUsers = useSelector((state) => state.users.storedUsers);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        // console.log(`================================================ `);
+        const rec = await handleRecipesFetch(null, "15");
+        dispatch(setRecipesData({ recipesData: rec }));
+        const healthyRec = await handleRecipesFetch("healthy", "5");
+        dispatch(setHealthyRecipesData({ healthyRecipesData: healthyRec }));
+      } catch (error) {
+        console.error("Error fetching recipes:", error);
+      } finally {
+        setLoading(false); // Set loading state to false when done
+      }
+    })();
+  }, []);
+
+  const handleRecipesFetch = async (tags, size) => {
+    try {
+      const recipes = await getRecipesList(tags, size);
+      return recipes?.data?.results || [];
+    } catch (e) {
+      console.log(" handleRecipesFetch error fetching recipes :>> ", e);
+      return [];
+    }
+  };
 
   useEffect(() => {
     console.log("Subscribing to firebase listeners");
@@ -166,6 +195,57 @@ const DashBoardNavigator = (props) => {
     //////end get User ProgressLog //////
     //console.log(`----------------get userChats)`);
     //console.log(`get userChats ++++++++++++++++isLoading2`, isLoading);
+
+    //-----------------------------------
+
+    ///////////////end User Calendar ///////////////////
+
+    //////get User meals //////
+    //console.log(`----------------get User meals)`);
+
+    const userMealsRef = child(dbRef, `userMeals/${userData.userId}`);
+    refs.push(userMealsRef);
+
+    onValue(userMealsRef, (querySnapshot) => {
+      const mealsIdsData = querySnapshot.val() || {};
+      const mealIds = Object.values(mealsIdsData);
+      console.log(`mealIds ${mealIds}`);
+      const mealsData = {};
+      let mealsFoundCount = 0;
+
+      for (let i = 0; i < mealIds.length; i++) {
+        const mealId = mealIds[i];
+        const mealRef = child(dbRef, `meals/${mealId}`);
+        refs.push(mealRef);
+
+        onValue(mealRef, (mealSnapshot) => {
+          mealsFoundCount++;
+
+          const mdata = mealSnapshot.val();
+
+          if (mdata) {
+            /* if (!data.users.includes(userData.userId)) {
+              return;
+            } */
+            mdata.key = mealSnapshot.key;
+
+            mealsData[mealSnapshot.key] = mdata;
+            console.log(`++++++++++++++++ mdata`, mdata);
+          }
+
+          if (mealsFoundCount >= mealIds.length) {
+            //  console.log(`----------------dispatch(setCalendarActivitiesData)`);
+            //  console.log(`++++++++++++++++isLoading2`, isLoading);
+
+            dispatch(setProgressData({ mealsData }));
+          }
+        });
+      }
+    });
+
+    //////end get User Meals //////
+
+    ///-----------------------------------
 
     const userChatsRef = child(dbRef, `userChats/${userData.userId}`);
     refs.push(userChatsRef);

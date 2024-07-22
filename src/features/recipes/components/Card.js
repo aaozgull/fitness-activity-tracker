@@ -6,13 +6,14 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import colors from "../constants/colors";
+//import colors from "../constants/colors";
+import { colors } from "../../../infrastructure/theme/colors";
 const { width } = Dimensions.get("window");
 
 const Card = ({ title, style, image, servings, onPress }) => {
   return (
     <TouchableOpacity onPress={onPress} style={[styles.container, style]}>
-      <Image style={styles.image} source={{ uri: image }} />
+      <Image style={styles.image} source={image} />
       <Text numberOfLines={3} style={styles.title}>
         {title}
       </Text>
@@ -30,7 +31,7 @@ export default React.memo(Card);
 const styles = StyleSheet.create({
   container: {
     borderRadius: 12,
-    backgroundColor: "rgba(217,217,217,0.5)",
+    backgroundColor: colors.ui.grey10, //"rgba(217,217,217,0.5)",
     padding: 10,
     width: width * 0.4,
     marginVertical: 32,
@@ -38,22 +39,26 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   title: {
-    fontSize: 14,
-    color: colors.grey,
+    // fontSize: 14,
+    color: colors.text.primary,
     fontWeight: "bold",
     textAlign: "center",
     marginVertical: 16,
+    letterSpacing: 0.5,
   },
   label: {
-    color: colors.lightGrey2,
-    fontSize: 11,
+    color: colors.text.gray500,
+    //fontSize: 11,
+    fontWeight: "regular",
     marginTop: 8,
     marginBottom: 4,
+    letterSpacing: 0.5,
   },
   value: {
-    color: colors.grey,
-    fontSize: 11,
     fontWeight: "bold",
+    color: colors.text.gray700,
+    // fontSize: 11,
+    // fontWeight: "bold",
   },
   image: {
     width: 100,

@@ -11,7 +11,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 import Card from "../components/Card";
 import Categories from "../components/Categories";
@@ -19,44 +19,42 @@ import Input from "../components/Input";
 import RecipeCard from "../components/RecipeCard";
 import PageTitle from "../../../components/utility/PageTitle";
 import { colors } from "../../../infrastructure/theme/colors";
+//import { updateFavouritesMeal } from "../../../store/mealsSlice";
 
 // Highlighted: Default image for fallback
 const defaultImage = require("../../../../assets/recipe/slider2.jpg");
 
-const RecipeScreen = ({ navigation }) => {
+const FavouriteMealsScreen = ({ navigation }) => {
   const recipes = useSelector((state) => state.recipes.recipesData) || [];
   const healthyRecipes = useSelector(
     (state) => state.recipes.healthyRecipesData ?? {}
   );
+  const favouriteMealIds =
+    useSelector((state) => state.favouriteMeals.favouriteMealIds) || [];
 
-  const [tags, setTags] = useState([]);
-  const [selectedTag, setSelectedTag] = useState();
-  const [filteredRecipes, setFilteredRecipes] = useState(recipes);
+  // const [isFavourite, setIsFavourite] = useState([]);
+  const [favouriteRecipes, setFavouriteRecipes] = useState([]);
 
   useEffect(() => {
-    const tagsList = [];
+    const favouriteList = [];
     recipes?.forEach((recipe) => {
-      recipe?.tags?.forEach((tag) => {
-        if (!tagsList?.includes(tag?.name)) {
-          tagsList?.push(tag?.name);
+      favouriteMealIds.forEach((Id) => {
+        if (Id === recipe.id) {
+          favouriteList.push(recipe);
         }
       });
     });
 
-    setTags(tagsList);
-  }, [recipes]);
-
-  useEffect(() => {
-    if (selectedTag) {
-      const filteredItems = recipes?.filter((rec) => {
-        const tag = rec?.tags?.find((t) => t?.name === selectedTag);
-        return !!tag;
+    healthyRecipes?.forEach((healthyRecipe) => {
+      favouriteMealIds.forEach((Id) => {
+        if (Id === healthyRecipe.id) {
+          favouriteList.push(healthyRecipe);
+        }
       });
-      setFilteredRecipes(filteredItems);
-    } else {
-      setFilteredRecipes(recipes);
-    }
-  }, [selectedTag, recipes]);
+    });
+
+    setFavouriteRecipes(favouriteList);
+  }, [favouriteMealIds]);
 
   // Highlighted: Function to get image source
   const getImageSource = (imageUrl) => {
@@ -66,14 +64,20 @@ const RecipeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Input pressable onPress={() => navigation.navigate("Search")} />
-      <PageTitle title="Healthy Recipes" textStyle={styles.pageTitleStyle} />
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
+      <PageTitle title="Favourite Meals" textStyle={styles.pageTitleStyle} />
+
+      {/* <TouchableOpacity
+        onPress={() => updateFavouritesMeal()}
         style={styles.addMealButton}
       >
-        <FontAwesome5 name="plus" size={hp(4.5)} color={colors.ui.accent} />
-      </TouchableOpacity>
-      <FlatList
+        <AntDesign
+          name={isFavourite ? "heart" : "hearto"}
+          size={hp(4.5)}
+          color={isFavourite ? "red" : "white"}
+        />
+      </TouchableOpacity> */}
+
+      {/*  <FlatList
         horizontal
         data={healthyRecipes}
         style={{ marginHorizontal: -24 }}
@@ -84,7 +88,6 @@ const RecipeScreen = ({ navigation }) => {
             style={index === 0 ? { marginLeft: 24 } : {}}
             onPress={() => navigation.navigate("RecipeDetails", { item })}
             // Highlighted: Use getImageSource for image prop
-            mealId={item?.id}
             image={getImageSource(item?.thumbnail_url)}
             title={item?.name}
             time={item?.cook_time_minutes}
@@ -100,17 +103,11 @@ const RecipeScreen = ({ navigation }) => {
             }
           />
         )}
-      />
-
-      <Categories
-        categories={tags}
-        selectedCategory={selectedTag}
-        onCategoryPress={setSelectedTag}
-      />
+      /> */}
 
       <FlatList
         horizontal
-        data={filteredRecipes}
+        data={favouriteRecipes}
         style={{ marginHorizontal: -24 }}
         keyExtractor={(item) => String(item?.id)}
         showsHorizontalScrollIndicator={false}
@@ -139,7 +136,7 @@ const RecipeScreen = ({ navigation }) => {
   );
 };
 
-export default React.memo(RecipeScreen);
+export default React.memo(FavouriteMealsScreen);
 
 const styles = StyleSheet.create({
   container: {

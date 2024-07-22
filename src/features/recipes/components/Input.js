@@ -3,7 +3,14 @@ import { Image, Pressable, TextInput, View, StyleSheet } from "react-native";
 //import colors from "../constants/colors";
 import { colors } from "../../../infrastructure/theme/colors";
 
-const Input = ({ showSearchIcon, pressable, onPress, style, ...props }) => {
+const Input = ({
+  showSearchIcon = true,
+  pressable,
+  onPress,
+  style,
+  placeholder = "Search recipe",
+  ...props
+}) => {
   const renderInput = () => (
     <View style={[styles.container, style]}>
       {showSearchIcon ? (
@@ -15,6 +22,7 @@ const Input = ({ showSearchIcon, pressable, onPress, style, ...props }) => {
       <TextInput
         {...props}
         editable={!pressable}
+        placeholder={placeholder}
         placeholderTextColor={colors.ui.gray500}
         style={styles.input}
       />
@@ -28,12 +36,8 @@ const Input = ({ showSearchIcon, pressable, onPress, style, ...props }) => {
   return renderInput();
 };
 
-Input.defaultProps = {
-  placeholder: "Search recipe",
-  showSearchIcon: true,
-};
-
 export default React.memo(Input);
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
@@ -49,12 +53,13 @@ const styles = StyleSheet.create({
     color: colors.text.primary,
     fontFamily: "regular",
     letterSpacing: 0.3,
-    fontSize: 16,
+    //fontSize: 16,
     flex: 1,
   },
   icon: {
     width: 20,
     height: 20,
     marginRight: 16,
+    color: colors.ui.gray700,
   },
 });

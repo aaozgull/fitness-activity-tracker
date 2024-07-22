@@ -1,6 +1,7 @@
 import React from "react";
 import { FlatList, Text, TouchableOpacity, StyleSheet } from "react-native";
-import colors from "../constants/colors";
+//import colors from "../constants/colors";
+import { colors } from "../../../infrastructure/theme/colors";
 
 const Categories = ({ categories, selectedCategory, onCategoryPress }) => {
   return (
@@ -36,22 +37,23 @@ const Categories = ({ categories, selectedCategory, onCategoryPress }) => {
 export default React.memo(Categories);
 const styles = StyleSheet.create({
   item: {
-    fontSize: 12,
-    color: colors.green,
-    fontWeight: "bold",
+    // fontSize: 12,
+    color: colors.ui.fiftary,
+    fontFamily: "bold",
     padding: 8,
     paddingHorizontal: 12,
     textTransform: "capitalize",
+    letterSpacing: 0.5,
   },
   selectedItem: {
-    color: colors.white,
+    color: colors.text.grey10,
   },
   itemContainer: {
     marginRight: 8,
     marginBottom: 14,
   },
   selectedItemContainer: {
-    backgroundColor: colors.green,
+    backgroundColor: colors.ui.fiftary,
     borderRadius: 10,
   },
 });

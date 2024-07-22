@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 import Card from "../components/Card";
 import Input from "../components/Input";
+const defaultImage = require("../../../../assets/recipe/slider2.jpg");
 
 const Search = ({ navigation }) => {
   const recipes = useSelector((state) => state.recipes.recipesData);
@@ -20,6 +21,9 @@ const Search = ({ navigation }) => {
       setFilteredRecipes([]);
     }
   }, [keyword]);
+  const getImageSource = (imageUrl) => {
+    return imageUrl ? { uri: imageUrl } : defaultImage;
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -35,13 +39,13 @@ const Search = ({ navigation }) => {
             title={item?.name}
             onPress={() => navigation.navigate("RecipeDetails", { item })}
             servings={item?.num_servings}
-            image={item?.thumbnail_url}
+            image={getImageSource(item?.thumbnail_url)}
             rating={item?.user_ratings?.score}
             author={
               item?.credits?.length
                 ? {
                     name: item?.credits[0]?.name,
-                    image: item?.credits[0]?.image_url,
+                    image: getImageSource(item?.credits[0]?.image_url),
                   }
                 : null
             }
