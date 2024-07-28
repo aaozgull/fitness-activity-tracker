@@ -31,3 +31,37 @@ export const logMeal = async (loggedInUserId, mealData) => {
     throw error;
   }
 };
+
+export const updateFavouritesMeal = async (mealId, isFavourite) => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  // console.log("Current user:", user);
+
+  if (!user) {
+    console.error("User is not authenticated");
+    return;
+  }
+  console.log(
+    "updateFavouritesMeal called with mealId:",
+    mealId,
+    "isFavourite:",
+    isFavourite
+  );
+
+  if (!mealId) {
+    console.error(
+      "Invalid parameters for updateFavouritesMeal: mealId is missing"
+    );
+    return;
+  }
+
+  try {
+    const app = getFirebaseApp();
+    const dbRef = ref(getDatabase(app));
+    const favouriteRef = child(dbRef, `meal/${mealId}`);
+    await update(favouriteRef, { isFavourite: isFavourite });
+  } catch (error) {
+    console.error("Error updating isFavourite:", error);
+  }
+};

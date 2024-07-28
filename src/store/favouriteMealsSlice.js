@@ -3,25 +3,29 @@ import { createSlice } from "@reduxjs/toolkit";
 const favouriteMealsSlice = createSlice({
   name: "favouriteMeals",
   initialState: {
-    favouriteMealIds: [],
+    favouriteMealKeys: [],
   },
   reducers: {
-    setFavouriteMealIds: (state, action) => {
-      state.favouriteMealIds = { ...action.payload.favouriteMealids };
+    setFavouriteMealsData: (state, action) => {
+      state.favouriteMealKeys = action.payload.favouriteMealsKey; // Use an array
+      //  console.log("set state.favouriteMealKeys", state.favouriteMealKeys);
     },
-    addfavouriteMeal: (state, action) => {
-      state.favouriteMealIds.push(action.payload.mealId);
+    addFavouriteMeal: (state, action) => {
+      state.favouriteMealKeys.push(action.payload.mealId);
+      // console.log("state.favouriteMealKeys", state.favouriteMealKeys);
     },
-    removeFavouritesMeal: (state, action) => {
+    removeFavouriteMeal: (state, action) => {
       const { mealId } = action.payload;
-      const newFavouriteIds = state.favouriteMealIds.filter(
-        (id) => id !== mealId
+      //  console.log("before state.favouriteMealKeys", state.favouriteMealKeys);
+      state.favouriteMealKeys = state.favouriteMealKeys.filter(
+        (favourite) => favourite !== mealId
       );
-      state.favouriteMealIds = newFavouriteIds;
+      //  console.log("after state.favouriteMealKeys", state.favouriteMealKeys);
     },
   },
 });
-export const { setFavouriteMealIds, addfavouriteMeal, removeFavouritesMeal } =
+
+export const { setFavouriteMealsData, addFavouriteMeal, removeFavouriteMeal } =
   favouriteMealsSlice.actions;
 
 export default favouriteMealsSlice.reducer;

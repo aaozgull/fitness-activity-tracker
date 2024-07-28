@@ -3,10 +3,9 @@ import {
   FlatList,
   SafeAreaView,
   StyleSheet,
-  ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,

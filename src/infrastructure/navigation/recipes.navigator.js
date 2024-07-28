@@ -1,6 +1,5 @@
 import { Image, StyleSheet, Pressable } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useDispatch } from "react-redux";
 import RecipeDetails from "../../features/recipes/screens/RecipeDetails";
 import RecipeScreen from "../../features/recipes/screens/RecipeScreen";
 import Search from "../../features/recipes/screens/Search";

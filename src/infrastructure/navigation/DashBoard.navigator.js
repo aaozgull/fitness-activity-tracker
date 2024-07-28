@@ -24,6 +24,8 @@ import { setChatMessages, setStarredMessages } from "../../store/messagesSlice";
 import { setStoredUsers } from "../../store/userSlice";
 import { setCalendarData } from "../../store/calendarSlice";
 import { setCalendarActivitiesData } from "../../store/calendarActivitiesSlice";
+import { setMealData } from "../../store/mealsSlice";
+import { setFavouriteMealsData } from "../../store/favouriteMealsSlice";
 const DashBoardStack = createNativeStackNavigator();
 
 const StackNavigator = () => {
@@ -72,7 +74,7 @@ const DashBoardNavigator = (props) => {
       } catch (error) {
         console.error("Error fetching recipes:", error);
       } finally {
-        setLoading(false); // Set loading state to false when done
+        setIsLoading(false); // Set loading state to false when done
       }
     })();
   }, []);
@@ -92,7 +94,7 @@ const DashBoardNavigator = (props) => {
     //console.log("==============isLoading1", isLoading);
     const app = getFirebaseApp();
     const dbRef = ref(getDatabase(app));
-
+    setIsLoading(true);
     /////////////Get user Calendar/////////////////////
     // console.log(`/////////////Get user Calendar/////////////////////`);
     // console.log(`//////Get user Calendar////////isLoading2`, isLoading);
@@ -203,7 +205,7 @@ const DashBoardNavigator = (props) => {
     //////get User meals //////
     //console.log(`----------------get User meals)`);
 
-    const userMealsRef = child(dbRef, `userMeals/${userData.userId}`);
+    const userMealsRef = child(dbRef, `userMeal/${userData.userId}`);
     refs.push(userMealsRef);
 
     onValue(userMealsRef, (querySnapshot) => {
@@ -211,11 +213,12 @@ const DashBoardNavigator = (props) => {
       const mealIds = Object.values(mealsIdsData);
       console.log(`mealIds ${mealIds}`);
       const mealsData = {};
+      const favouriteMealsKey = [];
       let mealsFoundCount = 0;
 
       for (let i = 0; i < mealIds.length; i++) {
         const mealId = mealIds[i];
-        const mealRef = child(dbRef, `meals/${mealId}`);
+        const mealRef = child(dbRef, `meal/${mealId}`);
         refs.push(mealRef);
 
         onValue(mealRef, (mealSnapshot) => {
@@ -230,14 +233,21 @@ const DashBoardNavigator = (props) => {
             mdata.key = mealSnapshot.key;
 
             mealsData[mealSnapshot.key] = mdata;
-            console.log(`++++++++++++++++ mdata`, mdata);
+            if (mdata.isFavourite) {
+              favouriteMealsKey.push(mealSnapshot.key);
+            }
+            //console.log(`++++++++++++++++ mdata`, mdata);
           }
 
           if (mealsFoundCount >= mealIds.length) {
-            //  console.log(`----------------dispatch(setCalendarActivitiesData)`);
-            //  console.log(`++++++++++++++++isLoading2`, isLoading);
+            //console.log(`---------------- mealsData`, mealsData);
+            /*  console.log(
+              `++++++++++++++++favouriteMealsData`,
+              favouriteMealsKey
+            ); */
 
-            dispatch(setProgressData({ mealsData }));
+            dispatch(setMealData({ mealsData }));
+            dispatch(setFavouriteMealsData({ favouriteMealsKey }));
           }
         });
       }

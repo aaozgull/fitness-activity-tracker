@@ -1,11 +1,26 @@
 import React from "react";
+import { Image, StyleSheet, Pressable } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import RecipesNavigator from "./recipes.navigator";
 import { colors } from "../theme/colors";
 import ReviewMealScreen from "../../features/recipes/screens/ReviewMealScreen";
+import RecentMealsScreen from "../../features/recipes/screens/RecentMealsScreen";
+import FavouriteMealsScreen from "../../features/recipes/screens/FavouriteMealsScreen";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const Tab = createBottomTabNavigator();
+
+const BackButton = (props) => {
+  return (
+    <Pressable onPress={props.onPress}>
+      <Image
+        style={styles.back}
+        source={require("../../../assets/recipe/back.png")}
+      />
+    </Pressable>
+  );
+};
 
 const TAB_ICON = {
   DashBoard: "fitness", //"md-restaurant",
@@ -31,7 +46,7 @@ const MealNavigator = () => (
       tabBarActiveTintColor: colors.ui.tertiary,
       tabBarInactiveTintColor: colors.ui.gray500,
       // headerTitle: "",
-      headerShown: false,
+      //headerShown: false,
       headerShadowVisible: false,
       tabBarHideOnKeyboard: true,
 
@@ -52,12 +67,44 @@ const MealNavigator = () => (
       },
     })}
   >
-    <Tab.Screen name="create Meal" component={RecipesNavigator} />
+    <Tab.Screen
+      name="create Meal"
+      component={RecipesNavigator}
+      options={{ headerShown: false }}
+    />
 
-    <Tab.Screen name="recent" component={RecipesNavigator} />
+    <Tab.Screen
+      name="recent"
+      component={RecentMealsScreen}
+      options={
+        {
+          headerLeft: (props) => <BackButton {...props} />,
+          headerStyle: { backgroundColor: colors.ui.fiftary },
+          headerTintColor: { color: colors.text.grey10 },
+        } /* { headerLeft: null, gestureEnabled: false } */
+      }
+    />
 
-    <Tab.Screen name="favorite" component={ReviewMealScreen} />
+    <Tab.Screen
+      name="favorite"
+      component={FavouriteMealsScreen}
+      options={
+        {
+          headerLeft: (props) => <BackButton {...props} />,
+          headerStyle: { backgroundColor: colors.ui.fiftary },
+          headerTintColor: { color: colors.text.grey10 },
+        } /* { headerLeft: null, gestureEnabled: false } */
+      }
+    />
   </Tab.Navigator>
 );
+
+const styles = StyleSheet.create({
+  back: {
+    width: 24,
+    height: 24,
+    margin: 16,
+  },
+});
 
 export default MealNavigator;

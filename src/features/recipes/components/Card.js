@@ -1,28 +1,49 @@
 import React from "react";
 import {
+  View,
   Image,
   Text,
   StyleSheet,
   Dimensions,
   TouchableOpacity,
 } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 //import colors from "../constants/colors";
 import { colors } from "../../../infrastructure/theme/colors";
 const { width } = Dimensions.get("window");
 
-const Card = ({ title, style, image, servings, onPress }) => {
+const Card = ({
+  title,
+  style,
+  image,
+  servings,
+  onPress,
+  isFavourite,
+  showFavIcon = null,
+}) => {
   return (
     <TouchableOpacity onPress={onPress} style={[styles.container, style]}>
       <Image style={styles.image} source={image} />
       <Text numberOfLines={3} style={styles.title}>
         {title}
       </Text>
-      {servings ? (
-        <>
-          <Text style={styles.label}>Servings</Text>
-          <Text style={styles.value}>{servings}</Text>
-        </>
-      ) : null}
+      <View style={styles.footer}>
+        {servings ? (
+          <>
+            <Text style={styles.label}>Servings</Text>
+            <Text style={styles.value}>{servings}</Text>
+          </>
+        ) : null}
+        {showFavIcon !== null && (
+          <View style={styles.addMealButton}>
+            <AntDesign
+              name={isFavourite ? "heart" : "hearto"}
+              size={24}
+              color={isFavourite ? "red" : "gray"}
+            />
+          </View>
+        )}
+      </View>
     </TouchableOpacity>
   );
 };
@@ -66,5 +87,11 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginTop: -60,
     alignSelf: "center",
+  },
+  footer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 8,
   },
 });

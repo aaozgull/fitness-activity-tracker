@@ -3,7 +3,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import CalendarScreen from "../../features/Calendar/screen/Calendar-screen";
 import WorkoutNavigator from "./Workout.navigator";
-import RecipesNavigator from "./recipes.navigator";
+//import RecipesNavigator from "./recipes.navigator";
+import MealNavigator from "./Meal.navigator";
 import TimerScreen from "../../features/Calendar/screen/TimerScreen";
 import ReadBooksScreen from "../../features/Calendar/screen/ReadBooksScreen";
 import ThumbUpScreen from "../../features/Calendar/screen/ThumbUpScreen";
@@ -28,7 +29,7 @@ const CalendarNavigator = () => {
 
       <Stack.Screen
         name="Recipes"
-        component={RecipesNavigator}
+        component={MealNavigator}
         options={{ headerShown: false }}
       />
       <Stack.Screen

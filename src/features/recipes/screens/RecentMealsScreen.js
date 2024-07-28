@@ -15,59 +15,65 @@ import { Divider } from "react-native-paper";
 // Highlighted: Default image for fallback
 const defaultImage = require("../../../../assets/recipe/slider2.jpg");
 
-const FavouriteMealsScreen = ({ navigation }) => {
+const RecentMealsScreen = ({ navigation }) => {
   const recipes = useSelector((state) => state.recipes.recipesData) || [];
-
+  const healthyRecipes =
+    useSelector((state) => state.recipes.healthyRecipesData) || [];
   const userMeals = useSelector((state) => state.meals.mealsData ?? {});
-  const favouriteMealskey =
-    useSelector((state) => state.favouriteMeals.favouriteMealKeys) || [];
 
   const [tags, setTags] = useState([]);
   const [selectedTag, setSelectedTag] = useState("breakfast");
   const [filteredMeals, setFilteredMeals] = useState([]);
-  const [favouriteMeals, setFavouriteMeals] = useState([]);
+  const [recentMeals, setRecentMeals] = useState([]);
 
   useEffect(() => {
     const tagsList = ["breakfast", "Lunch", "Dinner", "Snack"];
     setTags(tagsList);
   }, []);
   useEffect(() => {
-    const favMealsList = [];
-    const favMeals = [];
-
-    favouriteMealskey.forEach((key) => {
-      Object.values(userMeals).forEach((meal) => {
-        if (key === meal.key) {
-          favMeals.push(meal);
-        }
-      });
-    });
-
+    const recentMealsList = [];
     recipes?.forEach((recipe) => {
-      favMeals.forEach((meal) => {
+      Object.values(userMeals).forEach((meal) => {
         if (recipe.id === meal.mealId) {
           const newMealData = {
             ...recipe,
             ...meal,
           };
-          favMealsList?.push(newMealData);
+          recentMealsList?.push(newMealData);
         }
       });
     });
 
-    setFavouriteMeals(favMealsList);
-  }, [recipes, userMeals, favouriteMealskey]);
+    /*    healthyRecipes?.forEach((recipe) => {
+      Object.values(userMeals).forEach((meal) => {
+        if (recipe.id === meal.mealId) {
+          console.log("healthy recipe ", recipe.id);
+          console.log("meal ", meal.mealId);
+          const newMealData = {
+            ...recipe,
+            ...meal,
+            source: "healthyRecipe",
+          };
+          //  console.log("newMealData", newMealData);
+          recentMealsList?.push(newMealData);
+        }
+      });
+    }); */
+
+    setRecentMeals(recentMealsList);
+  }, [recipes, userMeals]);
 
   useEffect(() => {
     if (selectedTag) {
-      const filteredMeals = favouriteMeals?.filter(
+      const filteredMeals = recentMeals?.filter(
         (rec) => rec.mealTime === selectedTag
       );
+      //   console.log("filteredMeals", filteredMeals);
       setFilteredMeals(filteredMeals);
     } else {
-      setFilteredMeals(favouriteMeals);
+      setFilteredMeals(recentMeals);
     }
-  }, [selectedTag, favouriteMeals]);
+  }, [selectedTag, recentMeals]);
 
   // Highlighted: Function to get image source
   const getImageSource = (imageUrl) => {
@@ -78,8 +84,8 @@ const FavouriteMealsScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <Input
         pressable
-        placeholder="Search Favourite Meals"
-        onPress={() => navigation.navigate("Search", { isFavourite: true })}
+        placeholder="Search Recent Meals"
+        onPress={() => navigation.navigate("Search", { isFavourite: false })}
       />
       <PageTitle title="Recent Meals" textStyle={styles.pageTitleStyle} />
       <View>
@@ -122,7 +128,7 @@ const FavouriteMealsScreen = ({ navigation }) => {
   );
 };
 
-export default React.memo(FavouriteMealsScreen);
+export default React.memo(RecentMealsScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -136,7 +142,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.text.secondary,
   },
   flatListContainer: {
-    // paddingBottom: 24,
+    // marginBottom: 14,
   },
 
   pageTitleStyle: {

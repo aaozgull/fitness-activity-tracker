@@ -59,7 +59,7 @@ const MenuItems = ({ onSelectedMenuItem }) => {
       backgroundColor: colors.ui.tertiary,
       icon: "FontAwesome5",
       isChecked: false,
-      screen: "TodayWorkoutScreen",
+      screen: "TodayWorkout",
     },
     {
       name: "shoe-sneaker",
@@ -74,7 +74,7 @@ const MenuItems = ({ onSelectedMenuItem }) => {
       backgroundColor: colors.ui.accent,
       icon: "faUtensils",
       isChecked: false,
-      screen: "RecipeScreen",
+      screen: "Recipes",
     },
     {
       name: "camera",
@@ -106,7 +106,7 @@ const MenuItems = ({ onSelectedMenuItem }) => {
       backgroundColor: colors.ui.green,
       icon: "MaterialCommunityIcons",
       isChecked: false,
-      screen: "ThumbUpScreen",
+      screen: "ThumbUp",
     },
   ];
 

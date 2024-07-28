@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Image,
   Text,
@@ -7,14 +7,16 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import Rating from "./Rating";
 import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../../../infrastructure/theme/colors";
 import timer from "../../../../assets/recipe/timer.png";
 import {
-  addfavouriteMeal,
-  removeFavouritesMeal,
+  addFavouriteMeal,
+  removeFavouriteMeal,
 } from "../../../store/favouriteMealsSlice";
+import { updateFavouritesMeal } from "../../../utils/actions/mealActions"; // Make sure the path is correct
 
 const RecipeCard = ({
   mealId,
@@ -25,13 +27,37 @@ const RecipeCard = ({
   rating,
   time,
   onPress,
+  showFavIcone = false,
 }) => {
+  const dispatch = useDispatch();
+  const favouriteMeals =
+    useSelector((state) => state.favouriteMeals.favouriteMealKeys) || [];
+
   const [isFavourite, setIsFavourite] = useState(false);
-  const updateFavouritesMeal = () => {
-    console.log("updateFavouritesMeal", mealId);
-    !isFavourite
-      ? removeFavouritesMeal({ mealId })
-      : addfavouriteMeal({ mealId });
+  useEffect(() => {
+    // Check if the meal is in the list of favourite meals
+
+    showFavIcone ? setIsFavourite(favouriteMeals.includes(mealId)) : null;
+  }, [favouriteMeals, mealId]);
+  const handleUpdateFavouritesMeal = async () => {
+    /* console.log(
+      "handleUpdateFavouritesMeal called with mealId:",
+      mealId,
+      "isFavourite:",
+      !isFavourite
+    ); */
+
+    if (!mealId) {
+      console.error("Invalid mealId");
+      return;
+    }
+
+    if (isFavourite) {
+      dispatch(removeFavouriteMeal({ mealId }));
+    } else {
+      dispatch(addFavouriteMeal({ mealId }));
+    }
+    await updateFavouritesMeal(mealId, !isFavourite);
     setIsFavourite(!isFavourite);
   };
   return (
@@ -57,18 +83,20 @@ const RecipeCard = ({
         ) : (
           <View />
         )}
-        <View>
-          <TouchableOpacity
-            onPress={() => updateFavouritesMeal()}
-            style={styles.addMealButton}
-          >
-            <AntDesign
-              name={isFavourite ? "heart" : "hearto"}
-              size={24}
-              color={isFavourite ? "red" : "gray"}
-            />
-          </TouchableOpacity>
-        </View>
+        {showFavIcone && (
+          <View>
+            <TouchableOpacity
+              onPress={handleUpdateFavouritesMeal}
+              style={styles.addMealButton}
+            >
+              <AntDesign
+                name={isFavourite ? "heart" : "hearto"}
+                size={24}
+                color={isFavourite ? "red" : "gray"}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
       <View style={styles.footer}>
         {time ? (
