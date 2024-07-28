@@ -10,6 +10,8 @@ import calendarSlice from "./calendarSlice";
 import calendarActivitiesSlice from "./calendarActivitiesSlice";
 import recipeSlice from "./recipeSlice";
 import tasksSlice from "./tasksSlice";
+import mealsSlice from "./mealsSlice";
+import favouriteMealsSlice from "./favouriteMealsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -24,6 +26,8 @@ export const store = configureStore({
     activities: calendarActivitiesSlice,
     recipes: recipeSlice,
     tasks: tasksSlice,
+    meals: mealsSlice,
+    favouriteMeals: favouriteMealsSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

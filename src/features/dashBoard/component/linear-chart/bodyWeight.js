@@ -13,23 +13,32 @@ function BodyWeight() {
 
   const weightList = [];
   const dateList = [];
+  let counter = 0;
   for (const key in progressData) {
-    const progress = progressData[key];
-    const date = new Date(progress.createdAt);
-    const month = date.getMonth() + 1; // getMonth() is zero-based, so we add 1
-    const day = date.getDate();
+    if (counter <= 3) {
+      // return;
 
-    const formattedDate = `${month}/${day}`;
-    dateList.push(formattedDate);
-    const weight = parseFloat(progress.weight); // Use parseFloat to handle numeric strings
-    if (!isNaN(weight)) {
-      // Check if the parsed value is a valid number
-      weightList.push(weight);
-    } else {
-      weightList.push(0);
-      console.log(`Invalid weight value: ${progress.weight} at key: ${key}`);
+      const progress = progressData[key];
+      const date = new Date(progress.createdAt);
+      const month = date.getMonth() + 1; // getMonth() is zero-based, so we add 1
+      const day = date.getDate();
+
+      const formattedDate = `${month}/${day}`;
+      dateList.push(formattedDate);
+      const weight = parseFloat(progress.weight); // Use parseFloat to handle numeric strings
+      if (weight != null && !isNaN(weight)) {
+        // Check if the parsed value is a valid number
+        weightList.push(weight);
+        // console.log(" weight value:", weightList);
+      } else {
+        weightList.push(0);
+        console.log(`Invalid weight value: ${progress.weight} at key: ${key}`);
+      }
     }
+    counter++;
   }
+  //console.log("weightList  weight value:", weightList);
+
   return (
     <View>
       <Heading title="Body Weight" />

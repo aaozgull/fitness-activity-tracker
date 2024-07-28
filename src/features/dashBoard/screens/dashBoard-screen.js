@@ -48,12 +48,17 @@ export const DashBoardScreen = ({ navigation }) => {
   }
   function showGalleryHandler() {
     navigation.navigate("GalleryScreen");
+
+    //navigation.navigate("LogProgressScreen");
   }
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <PageContainer style={styles.container}>
         <Text style={styles.userNameText}>Hi! Aaoz</Text>
-        <View style={styles.summary}>{/*  <ToDoSummary /> */}</View>
+        <View style={styles.summary}>
+          <ToDoSummary />
+        </View>
 
         <PageTitle
           title="My Progress"
