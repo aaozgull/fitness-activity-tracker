@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import { colors } from "../../../infrastructure/theme/colors";
 import { FontAwesome5 } from "@expo/vector-icons";
-//import Carousel, { Pagination } from "react-native-snap-carousel";
+import Carousel, { Pagination } from "react-native-snap-carousel";
 //import { theme } from "../../../infrastructure/theme";
 import userImage from "../../../../assets/images/userImage.jpeg";
 
@@ -21,7 +21,7 @@ const TransparentImageSlider = ({ isVisible, onClose, images }) => {
     <Modal isVisible={isVisible} onBackdropPress={onClose}>
       <View style={styles.modalContainer}>
         <Text style={styles.menuHeaderText}>Progress Images</Text>
-        {/*  <Carousel
+        <Carousel
           data={images}
           renderItem={renderItem}
           sliderWidth={400}
@@ -47,7 +47,7 @@ const TransparentImageSlider = ({ isVisible, onClose, images }) => {
           }}
           inactiveDotOpacity={0.4}
           inactiveDotScale={0.6}
-        /> */}
+        />
         <TouchableOpacity onPress={onClose} style={styles.closeButton}>
           <Text style={styles.closeButtonText}>X</Text>
         </TouchableOpacity>
