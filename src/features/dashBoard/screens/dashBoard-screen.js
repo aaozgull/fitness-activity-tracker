@@ -10,6 +10,11 @@ import {
   ScrollView,
 } from "react-native";
 //import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import {
+  HeaderButtons,
+  Item,
+} from "../../../../react-navigation-header-buttons";
+
 //import styled from "styled-components/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
@@ -24,7 +29,7 @@ import HeaderLogo from "../../../components/utility/HeaderLogo";
 import { colors } from "../../../infrastructure/theme/colors";
 
 export const DashBoardScreen = ({ navigation }) => {
-  /*  useEffect(() => {
+  useEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return (
@@ -40,7 +45,7 @@ export const DashBoardScreen = ({ navigation }) => {
       },
       headerTitle: () => <HeaderLogo />,
     });
-  }, []); */
+  }, []);
 
   function showBodyWeightHandler() {
     navigation.navigate("bodyWeightDetail");

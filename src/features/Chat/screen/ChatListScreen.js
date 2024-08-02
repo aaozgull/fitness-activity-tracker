@@ -7,6 +7,10 @@ import {
   FlatList,
 } from "react-native";
 //import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import {
+  HeaderButtons,
+  Item,
+} from "../../../../react-navigation-header-buttons";
 import { useSelector } from "react-redux";
 import CustomHeaderButton from "../../../components/utility/CustomHeaderButton";
 import DataItem from "../../../components/utility/DataItem";
@@ -29,7 +33,7 @@ const ChatListScreen = (props) => {
     });
   });
 
-  /* useEffect(() => {
+  useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => {
         return (
@@ -44,7 +48,7 @@ const ChatListScreen = (props) => {
       },
       headerTitle: () => <HeaderLogo />,
     });
-  }, []); */
+  }, []);
 
   useEffect(() => {
     if (!selectedUser && !selectedUserList) {

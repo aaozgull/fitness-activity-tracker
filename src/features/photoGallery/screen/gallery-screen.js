@@ -7,6 +7,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 //import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import {
+  HeaderButtons,
+  Item,
+} from "../../../../react-navigation-header-buttons";
 //import { ActivityIndicator, Colors } from "react-native-paper";
 import { Feather, FontAwesome5 } from "@expo/vector-icons";
 import { PhotoInfoCard } from "../component/photo-info-card.component";
@@ -37,7 +41,7 @@ export const GalleryScreen = ({ navigation }) => {
     });
   }, []);
   //console.log("----------progressDataList", progressDataList);
-  /*   useEffect(() => {
+  useEffect(() => {
     navigation.setOptions({
       headerTitle: () => <HeaderLogo style={{ marginRight: 150 }} />,
       headerRight: () => {
@@ -53,7 +57,7 @@ export const GalleryScreen = ({ navigation }) => {
         );
       },
     });
-  }, []); */
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.row}>

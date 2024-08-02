@@ -15,11 +15,19 @@ function PhotoCard() {
   const firstProgressKey = Object.keys(progressData)[0];
   const progressPhoto = progressData[firstProgressKey];
   //console.log("firstProgress", progressData[firstProgressKey]);
+
+  if (!progressPhoto) {
+    return (
+      <Card elevation={5} style={styles.card}>
+        <Text style={styles.text}>No progress data available</Text>
+      </Card>
+    );
+  }
   const todayDate =
     progressPhoto.todayDate.split(",")[1] +
     "," +
     progressPhoto.todayDate.split(",")[2];
-
+  console.log(" progressPhoto.todayDate", progressPhoto.todayDate);
   return (
     <>
       <Heading title="Body Photos" />

@@ -370,11 +370,11 @@ const LogProgress = ({ navigation }) => {
         onTakePhoto={takePhoto}
         onPickImage={pickImage}
       />
-      {/*  <TransparentImageSlider
+      <TransparentImageSlider
         isVisible={imageSliderVisible}
         onClose={handleCloseMenu}
         images={images}
-      /> */}
+      />
     </PageContainer>
   );
 };

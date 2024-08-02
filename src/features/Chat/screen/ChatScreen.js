@@ -37,6 +37,10 @@ import {
 } from "../../../utils/imagePickerHelper";
 import AwesomeAlert from "react-native-awesome-alerts";
 //import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import {
+  HeaderButtons,
+  Item,
+} from "../../../../react-navigation-header-buttons";
 import CustomHeaderButton from "../../../components/utility/CustomHeaderButton";
 
 const ChatScreen = (props) => {
@@ -85,7 +89,7 @@ const ChatScreen = (props) => {
     );
   };
 
-  /*  useEffect(() => {
+  useEffect(() => {
     if (!chatData) return;
     props.navigation.setOptions({
       headerTitle: chatData.chatName ?? getChatTitleFromName(),
@@ -111,7 +115,7 @@ const ChatScreen = (props) => {
       },
     });
     setChatUsers(chatData.users);
-  }, [chatUsers]); */
+  }, [chatUsers]);
 
   const sendMessage = useCallback(async () => {
     try {
