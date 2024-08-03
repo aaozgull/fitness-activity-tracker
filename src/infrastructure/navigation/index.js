@@ -1,8 +1,9 @@
 import React from "react";
 
-import { NavigationContainer } from "@react-navigation/native";
+/* import { NavigationContainer } from "@react-navigation/native"; */
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
+/* import { navigationRef } from "./navigationRef"; */
 
 import { AppNavigator } from "./app.navigator";
 import { AccountNavigator } from "./account.navigator";
@@ -21,21 +22,20 @@ export const Navigation = () => {
   console.log("isAuth");
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {isAuth && !isNewRegistration && (
-          <Stack.Screen name="Main" component={AppNavigator} />
-        )}
-        {isAuth && isNewRegistration && (
-          <Stack.Screen name="Account" component={AccountNavigator} />
-        )}
-        {!isAuth && didTryAutoLogin && (
-          <Stack.Screen name="AuthNav" component={AuthNavigator} />
-        )}
-        {!isAuth && !didTryAutoLogin && (
-          <Stack.Screen name="StartUp" component={StartUpScreen} />
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {isAuth && !isNewRegistration && (
+        <Stack.Screen name="Main" component={AppNavigator} />
+      )}
+      {isAuth && isNewRegistration && (
+        <Stack.Screen name="Account" component={AccountNavigator} />
+      )}
+      {!isAuth && didTryAutoLogin && (
+        <Stack.Screen name="AuthNav" component={AuthNavigator} />
+      )}
+      {!isAuth && !didTryAutoLogin && (
+        <Stack.Screen name="StartUp" component={StartUpScreen} />
+      )}
+    </Stack.Navigator>
+    /*  </NavigationContainer> */
   );
 };

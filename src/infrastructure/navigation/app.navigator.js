@@ -7,6 +7,7 @@ import {
   useFocusEffect,
 } from "@react-navigation/native";
 
+import { navigationRef } from "./navigationRef";
 import DashBoardNavigator from "./DashBoard.navigator";
 import ChatNavigator from "./Chat.navigator";
 import CalendarNavigator from "./Calendar.navigator";
@@ -31,21 +32,24 @@ const createScreenOptions = ({ route }) => {
 };
 
 const getNestedRouteName = (route) => {
-  console.log("Entering getNestedRouteName with route: ", route);
+  //console.log(
+  // "Entering getNestedRouteName with route: ",
+  // JSON.stringify(route, null, 2)
+  //);
+
   if (!route?.state) {
-    console.log("No state in route");
-    return null;
+    return route.name; // If there's no state, return the route's name
   }
 
   const currentRoute = route.state.routes[route.state.index];
-  console.log("currentRoute: ", currentRoute);
+  //console.log("Current Route in getNestedRouteName: ", currentRoute);
 
   if (currentRoute.state) {
-    return getNestedRouteName(currentRoute);
+    return getNestedRouteName(currentRoute); // Recursively call for nested state
   }
 
   const nestedFocusedRouteName = getFocusedRouteNameFromRoute(currentRoute);
-  console.log("nestedFocusedRouteName: ", nestedFocusedRouteName);
+  //console.log("Nested Focused Route Name: ", nestedFocusedRouteName);
 
   return nestedFocusedRouteName || currentRoute.name;
 };
@@ -53,22 +57,25 @@ const getNestedRouteName = (route) => {
 export const AppNavigator = ({ navigation, route }) => {
   const [tabBarVisible, setTabBarVisible] = useState(true);
 
-  useEffect(() => {
-    const handleRouteChange = () => {
-      console.log("State change detected");
-      const routeName = getFocusedRouteNameFromRoute(route) ?? "DashBoard";
-      const nestedRouteName = getNestedRouteName(route);
+  const handleRouteChange = () => {
+    const currentRoute = navigationRef.current?.getCurrentRoute();
+    //console.log("Current Route from navigationRef:", currentRoute);
 
-      console.log("Inside navigation listener, routeName: ", routeName);
-      console.log("Nested route name: ", nestedRouteName);
+    if (currentRoute) {
+      const nestedRouteName = getNestedRouteName(currentRoute);
 
-      if (nestedRouteName === "Recipes") {
+      //console.log("RouteName", currentRoute.name);
+      //console.log("NestedRouteName", nestedRouteName);
+
+      if (nestedRouteName === "Recipe") {
         setTabBarVisible(false);
       } else {
         setTabBarVisible(true);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     const unsubscribe = navigation.addListener("state", handleRouteChange);
 
     return () => {
@@ -78,16 +85,20 @@ export const AppNavigator = ({ navigation, route }) => {
 
   useFocusEffect(
     useCallback(() => {
-      console.log("Focus effect triggered");
-      const routeName = getFocusedRouteNameFromRoute(route) ?? "DashBoard";
-      const nestedRouteName = getNestedRouteName(route);
-      console.log("Inside useFocusEffect, routeName: ", routeName);
-      console.log("Nested route name: ", nestedRouteName);
+      const currentRoute = navigationRef.current?.getCurrentRoute();
+      //console.log("useFocusEffect triggered with route: ", currentRoute);
 
-      if (nestedRouteName === "Recipes") {
-        setTabBarVisible(false);
-      } else {
-        setTabBarVisible(true);
+      if (currentRoute) {
+        const nestedRouteName = getNestedRouteName(currentRoute);
+
+        //console.log("RouteName in useFocusEffect: ", currentRoute.name);
+        //console.log("NestedRouteName in useFocusEffect: ", nestedRouteName);
+
+        if (nestedRouteName === "Recipe") {
+          setTabBarVisible(false);
+        } else {
+          setTabBarVisible(true);
+        }
       }
     }, [route])
   );
@@ -96,8 +107,8 @@ export const AppNavigator = ({ navigation, route }) => {
     <Tab.Navigator
       screenOptions={({ route }) => {
         const routeName = getFocusedRouteNameFromRoute(route) ?? "DashBoard";
-        //  console.log("route  ", route);
-        //  console.log("routeName  ", routeName);
+        //  //console.log("route  ", route);
+        //  //console.log("routeName  ", routeName);
         return {
           tabBarActiveTintColor: colors.ui.tertiary,
           tabBarInactiveTintColor: colors.ui.gray500,
@@ -130,8 +141,8 @@ export const AppNavigator = ({ navigation, route }) => {
         };
       }}
     >
-      <Tab.Screen name="DashBoard" component={DashBoardNavigator} />
       <Tab.Screen name="Calendar" component={CalendarNavigator} />
+      <Tab.Screen name="DashBoard" component={DashBoardNavigator} />
       <Tab.Screen name="Chat" component={ChatNavigator} />
     </Tab.Navigator>
   );
