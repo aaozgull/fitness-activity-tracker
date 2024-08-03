@@ -64,14 +64,9 @@ const RecipeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Input pressable onPress={() => navigation.navigate("Search")} />
+      <Input pressable onPress={() => navigation.navigate("SearchRecipe")} />
       <PageTitle title="Healthy Recipes" textStyle={styles.pageTitleStyle} />
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={styles.addMealButton}
-      >
-        <FontAwesome5 name="plus" size={hp(4.5)} color={colors.ui.accent} />
-      </TouchableOpacity>
+
       <FlatList
         horizontal
         data={healthyRecipes}
@@ -153,11 +148,5 @@ const styles = StyleSheet.create({
     fontFamily: "black",
     letterSpacing: 0.5,
     fontSize: 22,
-  },
-  addMealButton: {
-    position: "absolute",
-    borderRadius: hp(2),
-    top: hp(15), /// 23 in other simulator
-    right: wp(5),
   },
 });

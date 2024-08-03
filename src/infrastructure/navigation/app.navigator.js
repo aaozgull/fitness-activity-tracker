@@ -16,7 +16,7 @@ import { colors } from "../theme/colors";
 const Tab = createBottomTabNavigator();
 
 const TAB_ICON = {
-  DashBoard: "fitness",
+  DashBoard: "fitness-outline", //<Ionicons name="fitness-outline" size={24} color="black" />
   Chat: "chatbubble-outline",
   Calendar: "calendar-outline",
 };
@@ -49,7 +49,7 @@ const getNestedRouteName = (route) => {
   }
 
   const nestedFocusedRouteName = getFocusedRouteNameFromRoute(currentRoute);
-  //console.log("Nested Focused Route Name: ", nestedFocusedRouteName);
+  // console.log("Nested Focused Route Name: ", nestedFocusedRouteName);
 
   return nestedFocusedRouteName || currentRoute.name;
 };
@@ -59,15 +59,22 @@ export const AppNavigator = ({ navigation, route }) => {
 
   const handleRouteChange = () => {
     const currentRoute = navigationRef.current?.getCurrentRoute();
-    //console.log("Current Route from navigationRef:", currentRoute);
+    // console.log("Current Route from navigationRef:", currentRoute);
 
     if (currentRoute) {
       const nestedRouteName = getNestedRouteName(currentRoute);
 
-      //console.log("RouteName", currentRoute.name);
-      //console.log("NestedRouteName", nestedRouteName);
+      // console.log("RouteName", currentRoute.name);
+      //  console.log("NestedRouteName", nestedRouteName);
 
-      if (nestedRouteName === "Recipe") {
+      if (
+        nestedRouteName === "Recipe" ||
+        nestedRouteName === "ReviewMealScreen" ||
+        nestedRouteName === "RecipeDetails" ||
+        nestedRouteName === "SearchRecipe" ||
+        nestedRouteName === "recent" ||
+        nestedRouteName === "favorite"
+      ) {
         setTabBarVisible(false);
       } else {
         setTabBarVisible(true);
@@ -86,15 +93,22 @@ export const AppNavigator = ({ navigation, route }) => {
   useFocusEffect(
     useCallback(() => {
       const currentRoute = navigationRef.current?.getCurrentRoute();
-      //console.log("useFocusEffect triggered with route: ", currentRoute);
+      // console.log("useFocusEffect triggered with route: ", currentRoute);
 
       if (currentRoute) {
         const nestedRouteName = getNestedRouteName(currentRoute);
 
-        //console.log("RouteName in useFocusEffect: ", currentRoute.name);
-        //console.log("NestedRouteName in useFocusEffect: ", nestedRouteName);
+        // console.log("RouteName in useFocusEffect: ", currentRoute.name);
+        //  console.log("NestedRouteName in useFocusEffect: ", nestedRouteName);
 
-        if (nestedRouteName === "Recipe") {
+        if (
+          nestedRouteName === "Recipe" ||
+          nestedRouteName === "ReviewMealScreen" ||
+          nestedRouteName === "RecipeDetails" ||
+          nestedRouteName === "SearchRecipe" ||
+          nestedRouteName === "recent" ||
+          nestedRouteName === "favorite"
+        ) {
           setTabBarVisible(false);
         } else {
           setTabBarVisible(true);
@@ -106,7 +120,7 @@ export const AppNavigator = ({ navigation, route }) => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => {
-        const routeName = getFocusedRouteNameFromRoute(route) ?? "DashBoard";
+        // const routeName = getFocusedRouteNameFromRoute(route) ?? "DashBoard";
         //  //console.log("route  ", route);
         //  //console.log("routeName  ", routeName);
         return {

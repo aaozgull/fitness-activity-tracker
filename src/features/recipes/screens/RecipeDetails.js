@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Image,
   SafeAreaView,
@@ -6,17 +6,16 @@ import {
   Text,
   View,
   StyleSheet,
-  TouchableOpacity,
 } from "react-native";
 import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import { FontAwesome5 } from "@expo/vector-icons";
+  HeaderButtons,
+  Item,
+} from "../../../../react-navigation-header-buttons";
 
 import SubTitle from "../../../components/utility/SubTitle";
 import { colors } from "../../../infrastructure/theme/colors";
 import PageTitle from "../../../components/utility/PageTitle";
+import CustomHeaderButton from "../../../components/utility/CustomHeaderButton";
 
 const RecipeDetails = ({ route, navigation }) => {
   const { item } = route?.params || {};
@@ -26,16 +25,29 @@ const RecipeDetails = ({ route, navigation }) => {
   delete nutrition?.updated_at;
   const nutritionKeys = Object.keys(nutrition || {});
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+            <Item
+              title="Log"
+              color={colors.ui.grey10} // Custom text color
+              size={24}
+              fontFamily="bold"
+              onPress={() => navigation.navigate("ReviewMealScreen", { item })}
+            />
+          </HeaderButtons>
+        );
+      },
+    });
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Image style={styles.image} source={{ uri: item?.thumbnail_url }} />
-        <TouchableOpacity
-          onPress={() => navigation.navigate("ReviewMealScreen", { item })}
-          style={styles.addMealButton}
-        >
-          <FontAwesome5 name="plus" size={hp(4.5)} color={colors.ui.accent} />
-        </TouchableOpacity>
+
         <PageTitle style={{ marginBottom: 32 }} title={item?.name} />
         <View style={{ marginHorizontal: 24 }}>
           {nutritionKeys?.map((key) => (
@@ -122,11 +134,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.text.primary,
     flex: 1,
-  },
-  addMealButton: {
-    position: "absolute",
-    borderRadius: hp(2),
-    top: hp(15), /// 23 in other simulator
-    right: wp(5),
   },
 });

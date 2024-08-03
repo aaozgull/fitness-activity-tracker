@@ -79,7 +79,9 @@ const FavouriteMealsScreen = ({ navigation }) => {
       <Input
         pressable
         placeholder="Search Favourite Meals"
-        onPress={() => navigation.navigate("Search", { isFavourite: true })}
+        onPress={() =>
+          navigation.navigate("SearchRecipe", { isFavourite: true })
+        }
       />
       <PageTitle title="Recent Meals" textStyle={styles.pageTitleStyle} />
       <View>

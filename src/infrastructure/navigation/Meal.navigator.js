@@ -11,35 +11,21 @@ import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const Tab = createBottomTabNavigator();
 
-const BackButton = (props) => {
-  return (
-    <Pressable onPress={props.onPress}>
-      <Image
-        style={styles.back}
-        source={require("../../../assets/recipe/back.png")}
-      />
-    </Pressable>
-  );
-};
+const BackButton = ({ onPress }) => (
+  <Pressable onPress={onPress} style={{ marginLeft: 16 }}>
+    <Image
+      style={styles.back}
+      source={require("../../../assets/recipe/back.png")}
+    />
+  </Pressable>
+);
 
 const TAB_ICON = {
-  DashBoard: "fitness", //"md-restaurant",
-  Chat: "chatbubble-outline",
-  Checkout: "md-cart",
-  Workout: "dumbbell",
-  Calendar: "calendar-outline",
-  //Settings: "md-settings",
+  "create Meal": "nutrition-outline", 
+    recent: "time-outline",
+  favorite: "heart-outline",
 };
 
-const createScreenOptions = ({ route }) => {
-  const iconName = TAB_ICON[route.name];
-  return {
-    headerShown: false,
-    tabBarIcon: ({ size, color }) => (
-      <Ionicons name={iconName} size={size} color={color} />
-    ),
-  };
-};
 const MealNavigator = () => (
   <Tab.Navigator
     screenOptions={({ route }) => ({
@@ -77,11 +63,11 @@ const MealNavigator = () => (
       name="recent"
       component={RecentMealsScreen}
       options={
-        {
-          headerLeft: (props) => <BackButton {...props} />,
+        ({ navigation }) => ({
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
           headerStyle: { backgroundColor: colors.ui.fiftary },
           headerTintColor: { color: colors.text.grey10 },
-        } /* { headerLeft: null, gestureEnabled: false } */
+        }) /* { headerLeft: null, gestureEnabled: false } */
       }
     />
 
@@ -89,11 +75,11 @@ const MealNavigator = () => (
       name="favorite"
       component={FavouriteMealsScreen}
       options={
-        {
-          headerLeft: (props) => <BackButton {...props} />,
+        ({ navigation }) => ({
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
           headerStyle: { backgroundColor: colors.ui.fiftary },
           headerTintColor: { color: colors.text.grey10 },
-        } /* { headerLeft: null, gestureEnabled: false } */
+        }) /* { headerLeft: null, gestureEnabled: false } */
       }
     />
   </Tab.Navigator>

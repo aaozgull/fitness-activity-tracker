@@ -1,3 +1,4 @@
+import React from "react";
 import { Image, StyleSheet, Pressable } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import RecipeDetails from "../../features/recipes/screens/RecipeDetails";
@@ -9,65 +10,54 @@ import { colors } from "../theme/colors";
 
 const Stack = createNativeStackNavigator();
 
-const BackButton = (props) => {
-  return (
-    <Pressable onPress={props.onPress}>
-      <Image
-        style={styles.back}
-        source={require("../../../assets/recipe/back.png")}
-      />
-    </Pressable>
-  );
-};
+const BackButton = ({ onPress }) => (
+  <Pressable onPress={onPress} style={{ marginLeft: 16 }}>
+    <Image
+      style={styles.back}
+      source={require("../../../assets/recipe/back.png")}
+    />
+  </Pressable>
+);
+
 const RecipesNavigator = () => {
   return (
     <Stack.Navigator
-      screenOptions={{ headerTitleAlign: "center", headerShadowVisible: false }}
+      screenOptions={{
+        headerTitleAlign: "center",
+        headerShadowVisible: false,
+        headerStyle: { backgroundColor: colors.ui.fiftary },
+        headerTintColor: colors.text.grey10,
+      }}
     >
-      {/*    <Stack.Screen
-        name="CreateRecipe"
-        component={CreateRecipeScreen}
-        options={{ headerLeft: null, gestureEnabled: false }}
-      /> */}
       <Stack.Screen
         name="Recipe"
         component={RecipeScreen}
-        options={
-          {
-            headerLeft: (props) => <BackButton {...props} />,
-            headerStyle: { backgroundColor: colors.ui.fiftary },
-            headerTintColor: { color: colors.text.grey10 },
-          } /* { headerLeft: null, gestureEnabled: false } */
-        }
+        options={({ navigation }) => ({
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+        })}
       />
       <Stack.Screen
-        name="Search"
+        name="SearchRecipe"
         component={Search}
-        options={{
-          headerLeft: (props) => <BackButton {...props} />,
-          headerStyle: { backgroundColor: colors.ui.fiftary },
-          headerTintColor: { color: colors.text.grey10 },
-        }}
+        options={({ navigation }) => ({
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+        })}
       />
       <Stack.Screen
         name="RecipeDetails"
         component={RecipeDetails}
-        options={{
-          headerLeft: (props) => <BackButton {...props} />,
+        options={({ navigation }) => ({
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
           title: "Recipe Details",
-          headerStyle: { backgroundColor: colors.ui.fiftary },
-          headerTintColor: { color: colors.text.grey10 },
-        }}
+        })}
       />
       <Stack.Screen
         name="ReviewMealScreen"
         component={ReviewMealScreen}
-        options={{
-          headerLeft: (props) => <BackButton {...props} />,
+        options={({ navigation }) => ({
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
           title: "Review Meal",
-          headerStyle: { backgroundColor: colors.ui.fiftary },
-          headerTintColor: { color: colors.text.grey10 },
-        }}
+        })}
       />
     </Stack.Navigator>
   );
@@ -77,7 +67,7 @@ const styles = StyleSheet.create({
   back: {
     width: 24,
     height: 24,
-    margin: 16,
+    // margin: 16,
   },
 });
 
