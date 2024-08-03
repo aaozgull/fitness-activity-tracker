@@ -18,6 +18,7 @@ import PageContainer from "../../../components/utility/PageContainer";
 import PageTitle from "../../../components/utility/PageTitle";
 import { colors } from "../../../infrastructure/theme/colors";
 import HeaderLogo from "../../../components/utility/HeaderLogo";
+import { getUserChats } from "../../../store/chatSlice"; // Adjust the import path as necessary
 
 const ChatListScreen = (props) => {
   const selectedUser = props.route?.params?.selectedUserId;
@@ -26,12 +27,13 @@ const ChatListScreen = (props) => {
 
   const userData = useSelector((state) => state.auth.userData);
   const storedUsers = useSelector((state) => state.users.storedUsers);
-  const userChats = useSelector((state) => {
+  /* const userChats = useSelector((state) => {
     const chatsData = state.chats.chatsData;
     return Object.values(chatsData).sort((a, b) => {
       return new Date(b.updatedAt) - new Date(a.updatedAt);
     });
-  });
+  }); */
+  const userChats = useSelector(getUserChats); // Use memoized selector
 
   useEffect(() => {
     props.navigation.setOptions({
