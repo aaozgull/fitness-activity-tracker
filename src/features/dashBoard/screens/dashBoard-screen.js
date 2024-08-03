@@ -49,12 +49,9 @@ export const DashBoardScreen = ({ navigation }) => {
 
   function showBodyWeightHandler() {
     navigation.navigate("bodyWeightDetail");
-    //PhotoInfoCard
   }
   function showGalleryHandler() {
     navigation.navigate("GalleryScreen");
-
-    //navigation.navigate("LogProgressScreen");
   }
 
   return (
