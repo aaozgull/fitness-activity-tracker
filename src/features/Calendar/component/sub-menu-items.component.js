@@ -101,6 +101,7 @@ const SubMenuItems = ({
     {
       name: "running",
       text: "Running",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "FontAwesome5",
       isChecked: false,
@@ -109,6 +110,7 @@ const SubMenuItems = ({
     {
       name: "walk",
       text: "Walking",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "Ionicons",
       isChecked: false,
@@ -117,6 +119,7 @@ const SubMenuItems = ({
     {
       name: "bicycle",
       text: "Cycing",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "Ionicons",
       isChecked: false,
@@ -125,6 +128,7 @@ const SubMenuItems = ({
     {
       name: "rowing",
       text: "Rowing",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "MaterialIcons",
       isChecked: false,
@@ -133,6 +137,7 @@ const SubMenuItems = ({
     {
       name: "camera",
       text: "Elliptical",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "Ionicons",
       isChecked: false,
@@ -141,6 +146,7 @@ const SubMenuItems = ({
     {
       name: "stairs-up",
       text: "Stair climbing",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "MaterialCommunityIcons",
       isChecked: false,
@@ -149,6 +155,7 @@ const SubMenuItems = ({
     {
       name: "american-football-outline",
       text: "American football",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "Ionicons",
       isChecked: false,
@@ -158,6 +165,7 @@ const SubMenuItems = ({
     {
       name: "football",
       text: "Australian football",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "Ionicons",
       isChecked: false,
@@ -166,6 +174,7 @@ const SubMenuItems = ({
     {
       name: "badminton",
       text: "Badminton",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "MaterialCommunityIcons",
       isChecked: false,
@@ -174,6 +183,7 @@ const SubMenuItems = ({
     {
       name: "baseball-bat-ball",
       text: "Baseball",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "faBaseballBall",
       isChecked: false,
@@ -182,6 +192,7 @@ const SubMenuItems = ({
     {
       name: "basketball-outline",
       text: "Basketball",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "Ionicons",
       isChecked: false,
@@ -190,6 +201,7 @@ const SubMenuItems = ({
     {
       name: "sports-cricket",
       text: "Cricket",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "MaterialIcons",
       isChecked: false,
@@ -198,6 +210,7 @@ const SubMenuItems = ({
     {
       name: "dance-pole",
       text: "CrossFit",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "MaterialCommunityIcons",
       isChecked: false,
@@ -206,6 +219,7 @@ const SubMenuItems = ({
     {
       name: "dance-ballroom",
       text: "Dancing",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "MaterialCommunityIcons",
       isChecked: false,
@@ -214,6 +228,7 @@ const SubMenuItems = ({
     {
       name: "group",
       text: "Fitness Class",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "FontAwesome",
       isChecked: false,
@@ -222,6 +237,7 @@ const SubMenuItems = ({
     {
       name: "hiking",
       text: "Hiking",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "MaterialCommunityIcons",
       isChecked: false,
@@ -230,6 +246,7 @@ const SubMenuItems = ({
     {
       name: "weight-lifter",
       text: "HIIT",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "MaterialCommunityIcons",
       isChecked: false,
@@ -238,6 +255,7 @@ const SubMenuItems = ({
     {
       name: "sports-hockey",
       text: "Hockey",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "MaterialIcons",
       isChecked: false,
@@ -246,6 +264,7 @@ const SubMenuItems = ({
     {
       name: "jump-rope",
       text: "Jump rope",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "MaterialCommunityIcons",
       isChecked: false,
@@ -254,6 +273,7 @@ const SubMenuItems = ({
     {
       name: "rowing",
       text: "Paddling",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "MaterialIcons",
       isChecked: false,
@@ -262,6 +282,7 @@ const SubMenuItems = ({
     {
       name: "barbell",
       text: "Pilates",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "Ionicons",
       isChecked: false,
@@ -270,6 +291,7 @@ const SubMenuItems = ({
     {
       name: "rugby",
       text: "Rugby",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "MaterialCommunityIcons",
       isChecked: false,
@@ -278,6 +300,7 @@ const SubMenuItems = ({
     {
       name: "skiing",
       text: "Skiing",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "FontAwesome5",
       isChecked: false,
@@ -286,6 +309,7 @@ const SubMenuItems = ({
     {
       name: "skiing-nordic",
       text: "Snowboarding",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "FontAwesome5",
       isChecked: false,
@@ -297,6 +321,7 @@ const SubMenuItems = ({
     {
       name: "sports-tennis",
       text: "Squash",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "MaterialIcons",
       isChecked: false,
@@ -305,6 +330,7 @@ const SubMenuItems = ({
     {
       name: "baseball-outline",
       text: "Softball",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "Ionicons",
       isChecked: false,
@@ -313,6 +339,7 @@ const SubMenuItems = ({
     {
       name: "soccer-ball-o",
       text: "Soccer",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "FontAwesome",
       isChecked: false,
@@ -321,6 +348,7 @@ const SubMenuItems = ({
     {
       name: "person-swimming",
       text: "Swimming",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "faSwimmer",
       isChecked: false,
@@ -329,6 +357,7 @@ const SubMenuItems = ({
     {
       name: "sports-tennis",
       text: "Tennis",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "MaterialIcons",
       isChecked: false,
@@ -337,6 +366,7 @@ const SubMenuItems = ({
     {
       name: "table-tennis",
       text: "Table Tennis",
+      description: "complete your schedule activity",
       backgroundColor: colors.ui.accent2,
       icon: "FontAwesome5",
       isChecked: false,

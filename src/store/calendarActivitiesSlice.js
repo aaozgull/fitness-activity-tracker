@@ -17,10 +17,10 @@ const calendarActivitiesSlice = createSlice({
       if (!activity.id) {
         activity.id = Date.now().toString();
       }
-      /*  */ console.log(
+      /*  console.log(
         "Before adding activity1:",
         state.calendarActivitiesData[calendarId]
-      );
+      ); */
       /*  if (!Array.isArray(state.calendarActivitiesData[calendarId])) { */
       if (!state.calendarActivitiesData[calendarId]) {
         state.calendarActivitiesData[calendarId] = {};
@@ -40,13 +40,14 @@ const calendarActivitiesSlice = createSlice({
       ); */
     },
     updateCalendarActivity: (state, action) => {
-      const { calendarId, activityId, isChecked } = action.payload;
+      const { calendarId, activityId, isChecked, description } = action.payload;
       const calendarActivities = state.calendarActivitiesData;
       let existingCalendarActivities = calendarActivities[calendarId];
 
       for (const key in existingCalendarActivities) {
         if (existingCalendarActivities[key].id === activityId) {
           existingCalendarActivities[key].isChecked = isChecked;
+          existingCalendarActivities[key].description = description;
         }
       }
 

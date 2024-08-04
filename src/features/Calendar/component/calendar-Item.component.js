@@ -10,6 +10,7 @@ import {
   getDatePlusDays,
 } from "../../../utils/date";
 import ToDoItem from "../../dashBoard/component/toDoList/dashBoard-toDo-Item";
+import { Divider } from "react-native-paper";
 
 export const CalendarItem = ({ date, selectedDate, calendarId }) => {
   // console.log(`CalendarItem  calendarId  ${calendarId}`);
@@ -63,20 +64,24 @@ export const CalendarItem = ({ date, selectedDate, calendarId }) => {
         <Text style={selectedStyle}>{displayDate}</Text>
       </View>
       {calendarActivityList.length > 0 &&
-        //formattedDate === formattedSelectedDate &&
-        calendarActivityList.map((menuItem) => (
-          <ToDoItem
-            key={menuItem.key} // Use the key property as the unique identifier
-            activityId={menuItem.key} // Use the key as the activityId
-            calendarId={calendarId}
-            description={menuItem.text}
-            checked={menuItem.isChecked}
-            color={menuItem.backgroundColor}
-            icon={menuItem.icon}
-            name={menuItem.name}
-            screen={menuItem.screen}
-            style={styles.toDoItem}
-          />
+        calendarActivityList.map((menuItem, index) => (
+          <React.Fragment key={menuItem.key}>
+            <ToDoItem
+              activityId={menuItem.key}
+              calendarId={calendarId}
+              text={menuItem.text}
+              description={menuItem.description}
+              checked={menuItem.isChecked}
+              color={menuItem.backgroundColor}
+              icon={menuItem.icon}
+              name={menuItem.name}
+              screen={menuItem.screen}
+              style={styles.toDoItem}
+            />
+            {index < calendarActivityList.length - 1 && (
+              <Divider style={styles.divider} />
+            )}
+          </React.Fragment>
         ))}
     </View>
   );
@@ -139,5 +144,10 @@ const styles = StyleSheet.create({
   },
   pressedItem: {
     opacity: 0.5,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: theme.colors.ui.grey300,
+    margin: 14,
   },
 });

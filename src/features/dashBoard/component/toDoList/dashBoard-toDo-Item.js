@@ -12,6 +12,7 @@ import { updateCalendarActivity } from "../../../../store/calendarActivitiesSlic
 function ToDoItem({
   activityId,
   calendarId,
+  text,
   description,
   checked,
   color,
@@ -29,12 +30,18 @@ function ToDoItem({
     try {
       // console.log(`setCheckBox ${description} ${name} ${checked} ${screen}`);
 
-      await updateActivitiesData(calendarId, activityId, isChecked);
+      await updateActivitiesData(
+        calendarId,
+        activityId,
+        isChecked,
+        description
+      );
       dispatch(
         updateCalendarActivity({
           calendarId,
           activityId,
           isChecked,
+          description,
         })
       );
       if (!checked) {
@@ -51,7 +58,8 @@ function ToDoItem({
   return (
     <View style={style}>
       <IconWithText
-        text={description}
+        text={text}
+        description={description}
         icon={icon}
         name={name}
         color={color}
@@ -77,9 +85,9 @@ const styles = StyleSheet.create({
     color: theme.colors.text.primary, // "#e4d9fd", //GlobalStyles.colors.primary50,
   },
   menuItemIcon: {
-    width: 24,
-    height: 24,
-    marginRight: 8,
+    width: 34,
+    height: 34,
+    marginRight: 12,
   },
   menuItemText: {
     fontFamily: "regular",
@@ -87,6 +95,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     padding: 4,
     color: theme.colors.text.primary,
+    //backgroundColor: "red",
   },
   amountContainer: {
     paddingHorizontal: theme.spaceInNumber[2], // 12,

@@ -56,6 +56,7 @@ const MenuItems = ({ onSelectedMenuItem }) => {
     {
       name: "weight",
       text: "Workout",
+      description: "complete your schedule workout",
       backgroundColor: colors.ui.tertiary,
       icon: "FontAwesome5",
       isChecked: false,
@@ -71,6 +72,7 @@ const MenuItems = ({ onSelectedMenuItem }) => {
     {
       name: "utensils",
       text: "Meal",
+      description: "",
       backgroundColor: colors.ui.accent,
       icon: "faUtensils",
       isChecked: false,
@@ -79,6 +81,7 @@ const MenuItems = ({ onSelectedMenuItem }) => {
     {
       name: "camera",
       text: "Photos",
+      description: "",
       backgroundColor: colors.ui.yellow,
       icon: "Ionicons",
       isChecked: false,
@@ -87,6 +90,7 @@ const MenuItems = ({ onSelectedMenuItem }) => {
     {
       name: "weight-scale",
       text: "Body Stats",
+      description: "Track Body Stats",
       backgroundColor: colors.ui.fiftary,
       icon: "faWeightScale",
       isChecked: false,
@@ -95,6 +99,7 @@ const MenuItems = ({ onSelectedMenuItem }) => {
     {
       name: "book",
       text: "read before sleep",
+      description: "",
       backgroundColor: colors.ui.error500,
       icon: "Ionicons",
       isChecked: false,
@@ -103,6 +108,7 @@ const MenuItems = ({ onSelectedMenuItem }) => {
     {
       name: "sleep",
       text: "sleep",
+      description: "",
       backgroundColor: colors.ui.green,
       icon: "MaterialCommunityIcons",
       isChecked: false,

@@ -7,19 +7,18 @@ import {
   MaterialIcons,
   MaterialCommunityIcons,
   FontAwesome,
-} from "@expo/vector-icons"; // Import the required icon components
+} from "@expo/vector-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faSwimmer,
   faBaseballBall,
   faWeightScale,
   faUtensils,
-} from "@fortawesome/free-solid-svg-icons"; // Corrected the icon import
+} from "@fortawesome/free-solid-svg-icons";
 
 const IconWithText = (props) => {
   const IconButton = ({ icon, name, color }) => {
     let IconComponent;
-    // console.log(`---- icon ${icon} name ${name} color ${color}`);
     switch (icon) {
       case "FontAwesome5":
         IconComponent = FontAwesome5;
@@ -58,7 +57,7 @@ const IconWithText = (props) => {
     return (
       <IconComponent
         name={name}
-        size={24}
+        size={34}
         color={color}
         style={props.iconStyle}
       />
@@ -66,24 +65,32 @@ const IconWithText = (props) => {
   };
 
   return (
-    <View>
-      <TouchableOpacity style={styles.menuItem} onPress={props.onPressed}>
+    <TouchableOpacity onPress={props.onPressed}>
+      <View style={styles.menuItem}>
         <IconButton icon={props.icon} name={props.name} color={props.color} />
-        <Text style={props.textStyle}>{props.text}</Text>
-      </TouchableOpacity>
-    </View>
+        <View style={styles.textContainer}>
+          <Text style={props.textStyle}>{props.text}</Text>
+          {props.description && (
+            <Text style={props.textStyle}>{props.description}</Text>
+          )}
+        </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  menuContent: {
-    marginBottom: theme.sizesInNumber[3], //20,
-  },
   menuItem: {
     flexDirection: "row",
-    alignContent: "space-between",
-    marginVertical: theme.sizesInNumber[2], // 10,
-    padding: 5,
+    alignItems: "center",
+    marginVertical: theme.sizesInNumber[1], // 10,
+    padding: 10, // Adjusted padding to accommodate larger icons
+    minHeight: 50, // Ensure enough height to fit 34-size icons comfortably
+    //backgroundColor: "red",
+  },
+
+  textContainer: {
+    flexDirection: "column",
   },
 });
 

@@ -117,7 +117,8 @@ export const addActivitiesData = async (
 export const updateActivitiesData = async (
   calendarItemId,
   activityId,
-  checked
+  checked,
+  description
 ) => {
   const auth = getAuth();
   const user = auth.currentUser;
@@ -136,8 +137,12 @@ export const updateActivitiesData = async (
 
   console.log("Updating data at:", calendarItemRef.toString());
   console.log("Updating checked value to:", checked);
+  console.log("Updating description to:", description);
 
-  await update(calendarItemRef, { checked: checked }).catch((error) => {
+  await update(calendarItemRef, {
+    checked: checked,
+    description: description,
+  }).catch((error) => {
     console.error("Error updating activity:", error);
   });
 };
