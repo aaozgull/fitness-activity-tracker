@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { AntDesign } from "@expo/vector-icons";
 import Categories from "../components/Categories";
 import Input from "../components/Input";
 import RecipeCard from "../components/RecipeCard";
@@ -73,6 +70,33 @@ const FavouriteMealsScreen = ({ navigation }) => {
   const getImageSource = (imageUrl) => {
     return imageUrl ? { uri: imageUrl } : defaultImage;
   };
+
+  if (filteredMeals.length === 0) {
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
+        <AntDesign
+          name="hearto"
+          size={100}
+          color={colors.text.tertiary}
+          style={{ alignSelf: "center", marginTop: 250 }}
+        />
+        <Text
+          style={{
+            ...styles.pageTitleStyle,
+            marginTop: 20,
+            textAlign: "center",
+            color: colors.text.tertiary,
+          }}
+        >
+          No Favourite Meals Yet!
+        </Text>
+        <Text style={{ ...styles.noRecipeText, marginTop: 20 }}>
+          Mark meals you frequently eat as your favourites, So you can have
+          quick access to them. You can mark meals you create or discover.
+        </Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -145,5 +169,12 @@ const styles = StyleSheet.create({
     fontFamily: "black",
     letterSpacing: 0.5,
     fontSize: 22,
+  },
+  noRecipeText: {
+    color: colors.text.tertiary,
+    fontFamily: "regular",
+    fontSize: 16,
+    textAlign: "center",
+    letterSpacing: 0.5,
   },
 });

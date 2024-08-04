@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
-import { useSelector } from "react-redux";
 import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+  Text,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useSelector } from "react-redux";
+import { MaterialIcons } from "@expo/vector-icons";
 import Categories from "../components/Categories";
 import Input from "../components/Input";
 import RecipeCard from "../components/RecipeCard";
@@ -80,6 +84,45 @@ const RecentMealsScreen = ({ navigation }) => {
     return imageUrl ? { uri: imageUrl } : defaultImage;
   };
 
+  if (filteredMeals.length === 0) {
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
+        <MaterialIcons
+          name="restaurant"
+          size={100}
+          color={colors.text.tertiary}
+          style={{ alignSelf: "center", marginTop: 250 }}
+        />
+        <Text
+          style={{
+            ...styles.pageTitleStyle,
+            marginTop: 20,
+            textAlign: "center",
+            color: colors.text.tertiary,
+          }}
+        >
+          No Recent Meals Yet!
+        </Text>
+        <Text style={{ ...styles.noRecipeText, marginTop: 20 }}>
+          Each Meal you log will appear here
+        </Text>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("create Meal")}
+          style={{ alignSelf: "center", marginTop: 20 }}
+        >
+          <Text
+            style={{
+              ...styles.pageTitleStyle,
+              color: colors.ui.accent,
+            }}
+          >
+            Create Meal
+          </Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Input
@@ -151,5 +194,12 @@ const styles = StyleSheet.create({
     fontFamily: "black",
     letterSpacing: 0.5,
     fontSize: 22,
+  },
+  noRecipeText: {
+    color: colors.text.tertiary,
+    fontFamily: "regular",
+    fontSize: 16,
+    textAlign: "center",
+    letterSpacing: 0.5,
   },
 });
