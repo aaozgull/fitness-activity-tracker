@@ -7,13 +7,7 @@ import {
   FlatList,
   StatusBar,
 } from "react-native";
-import {
-  startOfMonth,
-  eachDayOfInterval,
-  endOfMonth,
-  addMonths,
-  format,
-} from "date-fns";
+
 import { useDispatch, useSelector } from "react-redux";
 
 import { CalendarItem } from "../../Calendar/component/calendar-Item.component";
@@ -21,6 +15,7 @@ import { theme } from "../../../infrastructure/theme";
 import PageTitle from "../../../components/utility/PageTitle";
 import { getFormattedDate } from "../../../utils/date";
 import TransparentMenu from "./TransparentMenu";
+import Added from "./Added";
 import PageContainer from "../../../components/utility/PageContainer";
 import HeaderLogo from "../../../components/utility/HeaderLogo";
 import {
@@ -37,9 +32,11 @@ import SubMenuItems from "../component/sub-menu-items.component";
 const CalendarScreen = ({ navigation }) => {
   const [isMenuVisible, setMenuVisible] = useState(false);
   const [isSubmenuVisible, setSubmenuVisible] = useState(false); // New state for submenu visibility
+  const [isAddedVisible, setAddedVisible] = useState(false);
+  const [isAddedBackgroundColor, setAddedBackgroundColor] = useState("#FF643C");
 
   const [selectedItem, setSelectedItem] = useState({});
-  const [selectedMenuItems, setSelectedMenuItems] = useState([]);
+
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.userData);
   const calendarData = useSelector((state) => state.calendar.calendarData);
@@ -65,6 +62,10 @@ const CalendarScreen = ({ navigation }) => {
   // Handle closing submenu modal
   const handleCloseSubmenu = () => {
     setSubmenuVisible(false);
+  };
+
+  const handleCloseAdded = () => {
+    setAddedVisible(false);
   };
   // Display calendarData values
   // console.log("CalendarData:", calendarData);
@@ -122,6 +123,9 @@ const CalendarScreen = ({ navigation }) => {
               activity: { ...menuItem, id: activityId },
             })
           );
+          // console.log("selectedItem", selectedItem);
+          setAddedBackgroundColor(menuItem.backgroundColor);
+          setAddedVisible(true);
         })
         .catch((error) => {
           console.error("Error adding activity:", error);
@@ -189,6 +193,12 @@ const CalendarScreen = ({ navigation }) => {
         selectedDate={selectedItem}
         onClose={handleCloseSubmenu}
         onSelectedMenuItem={handleSelectSubmenuItem}
+      />
+
+      <Added
+        isVisible={isAddedVisible}
+        onClose={handleCloseAdded}
+        color={isAddedBackgroundColor}
       />
     </PageContainer>
   );
