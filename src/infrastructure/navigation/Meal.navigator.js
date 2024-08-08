@@ -21,69 +21,80 @@ const BackButton = ({ onPress }) => (
 );
 
 const TAB_ICON = {
-  "create Meal": "nutrition-outline", 
-    recent: "time-outline",
+  "create Meal": "nutrition-outline",
+  recent: "time-outline",
   favorite: "heart-outline",
 };
 
-const MealNavigator = () => (
-  <Tab.Navigator
-    screenOptions={({ route }) => ({
-      tabBarActiveTintColor: colors.ui.tertiary,
-      tabBarInactiveTintColor: colors.ui.gray500,
-      // headerTitle: "",
-      //headerShown: false,
-      headerShadowVisible: false,
-      tabBarHideOnKeyboard: true,
+const MealNavigator = ({ route }) => {
+  const { params } = route; // Destructure params
+  //console.log("================Navigating to  { params }:", params);
 
-      tabBarLabelStyle: {
-        fontFamily: "mediumItalic",
-        letterSpacing: 0.3,
-        fontSize: 16,
-        paddingBottom: 10,
-      },
-      //headerShown: false,
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarActiveTintColor: colors.ui.tertiary,
+        tabBarInactiveTintColor: colors.ui.gray500,
+        // headerTitle: "",
+        //headerShown: false,
+        headerShadowVisible: false,
+        tabBarHideOnKeyboard: true,
 
-      tabBarStyle: {
-        height: 70,
-      },
-      tabBarIcon: ({ size, color }) => {
-        const iconName = TAB_ICON[route.name];
-        return <Ionicons name={iconName} size={size} color={color} />;
-      },
-    })}
-  >
-    <Tab.Screen
-      name="create Meal"
-      component={RecipesNavigator}
-      options={{ headerShown: false }}
-    />
+        tabBarLabelStyle: {
+          fontFamily: "mediumItalic",
+          letterSpacing: 0.3,
+          fontSize: 16,
+          paddingBottom: 10,
+        },
+        //headerShown: false,
 
-    <Tab.Screen
-      name="recent"
-      component={RecentMealsScreen}
-      options={
-        ({ navigation }) => ({
-          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
-          headerStyle: { backgroundColor: colors.ui.fiftary },
-          headerTintColor: { color: colors.text.grey10 },
-        }) /* { headerLeft: null, gestureEnabled: false } */
-      }
-    />
+        tabBarStyle: {
+          height: 70,
+        },
+        tabBarIcon: ({ size, color }) => {
+          const iconName = TAB_ICON[route.name];
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      })}
+    >
+      <Tab.Screen
+        name="create Meal"
+        options={{ headerShown: false }}
+        children={() => <RecipesNavigator params={params} />} // Pass params as props
+        //component={RecipesNavigator}
+        //initialParams={{ params }} // Pass params to RecipesNavigator
+      />
 
-    <Tab.Screen
-      name="favorite"
-      component={FavouriteMealsScreen}
-      options={
-        ({ navigation }) => ({
-          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
-          headerStyle: { backgroundColor: colors.ui.fiftary },
-          headerTintColor: { color: colors.text.grey10 },
-        }) /* { headerLeft: null, gestureEnabled: false } */
-      }
-    />
-  </Tab.Navigator>
-);
+      <Tab.Screen
+        name="recent"
+        component={RecentMealsScreen}
+        options={
+          ({ navigation }) => ({
+            headerLeft: () => (
+              <BackButton onPress={() => navigation.goBack()} />
+            ),
+            headerStyle: { backgroundColor: colors.ui.fiftary },
+            headerTintColor: { color: colors.text.grey10 },
+          }) /* { headerLeft: null, gestureEnabled: false } */
+        }
+      />
+
+      <Tab.Screen
+        name="favorite"
+        component={FavouriteMealsScreen}
+        options={
+          ({ navigation }) => ({
+            headerLeft: () => (
+              <BackButton onPress={() => navigation.goBack()} />
+            ),
+            headerStyle: { backgroundColor: colors.ui.fiftary },
+            headerTintColor: { color: colors.text.grey10 },
+          }) /* { headerLeft: null, gestureEnabled: false } */
+        }
+      />
+    </Tab.Navigator>
+  );
+};
 
 const styles = StyleSheet.create({
   back: {

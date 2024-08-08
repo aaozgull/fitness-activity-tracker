@@ -55,12 +55,29 @@ const calendarActivitiesSlice = createSlice({
       state.calendarActivitiesData = calendarActivities;
       //}
     },
+    updateCalendarMealActivity: (state, action) => {
+      const { calendarId, activityId, isChecked, name } = action.payload;
+      const calendarActivities = state.calendarActivitiesData;
+      let existingCalendarActivities = calendarActivities[calendarId];
+
+      for (const key in existingCalendarActivities) {
+        if (existingCalendarActivities[key].id === activityId) {
+          existingCalendarActivities[key].isChecked = isChecked;
+          existingCalendarActivities[key].text = text;
+        }
+      }
+
+      calendarActivities[calendarId] = existingCalendarActivities;
+      state.calendarActivitiesData = calendarActivities;
+      //}
+    },
   },
 });
 export const {
   setCalendarActivitiesData,
   addCalendarActivity,
   updateCalendarActivity,
+  updateCalendarMealActivity,
 } = calendarActivitiesSlice.actions;
 
 export default calendarActivitiesSlice.reducer;

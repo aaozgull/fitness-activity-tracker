@@ -38,7 +38,7 @@ export const DashBoardScreen = ({ navigation }) => {
               iconName="user-edit"
               iconType={FontAwesome5}
               color={colors.ui.tertiary}
-              onPress={() => props.navigation.navigate("Settings")}
+              onPress={() => navigation.navigate("Settings")}
             />
           </HeaderButtons>
         );

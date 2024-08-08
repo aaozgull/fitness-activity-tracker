@@ -1,16 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { FlatList, SafeAreaView, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import { FontAwesome5 } from "@expo/vector-icons";
 
 import Card from "../components/Card";
 import Categories from "../components/Categories";
@@ -22,7 +12,16 @@ import { colors } from "../../../infrastructure/theme/colors";
 // Highlighted: Default image for fallback
 const defaultImage = require("../../../../assets/recipe/slider2.jpg");
 
-const RecipeScreen = ({ navigation }) => {
+const RecipeScreen = ({ route, navigation }) => {
+  const { calendarId, activityId } = Object.values(route.params)[1]; // Destructure params
+  /*console.log("RecipeScreen params:", route.params);
+  console.log(
+    "RecipeScreen Object.values(route.params)",
+    Object.values(route.params)[1]
+  );
+  console.log("RecipeScreen calendarId:", calendarId);
+  console.log("RecipeScreen activityId:", activityId);
+  //}, [params]);*/
   const recipes = useSelector((state) => state.recipes.recipesData) || [];
   const healthyRecipes = useSelector(
     (state) => state.recipes.healthyRecipesData ?? {}
@@ -76,7 +75,13 @@ const RecipeScreen = ({ navigation }) => {
         renderItem={({ item, index }) => (
           <RecipeCard
             style={index === 0 ? { marginLeft: 24 } : {}}
-            onPress={() => navigation.navigate("RecipeDetails", { item })}
+            onPress={() =>
+              navigation.navigate("RecipeDetails", {
+                item,
+                calendarId,
+                activityId,
+              })
+            }
             // Highlighted: Use getImageSource for image prop
             mealId={item?.id}
             image={getImageSource(item?.thumbnail_url)}
@@ -111,7 +116,13 @@ const RecipeScreen = ({ navigation }) => {
         renderItem={({ item, index }) => (
           <Card
             style={index === 0 ? { marginLeft: 24 } : {}}
-            onPress={() => navigation.navigate("RecipeDetails", { item })}
+            onPress={() =>
+              navigation.navigate("RecipeDetails", {
+                item,
+                calendarId,
+                activityId,
+              })
+            }
             // Highlighted: Use getImageSource for image prop
             image={getImageSource(item?.thumbnail_url)}
             title={item?.name}

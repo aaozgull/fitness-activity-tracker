@@ -22,9 +22,13 @@ import front from "../../../../assets/images/front.jpg";
 import { logMeal } from "../../../utils/actions/mealActions";
 import { addMealData } from "../../../store/mealsSlice";
 import SubmitButton from "../../../components/utility/SubmitButton";
+import { updateMealActivitiesData } from "../../../utils/actions/calendarActions";
+import { updateCalendarMealActivity } from "../../../store/calendarActivitiesSlice";
 
 const ReviewMealScreen = ({ route, navigation }) => {
-  const { item } = route?.params || {};
+  const { item, calendarId, activityId } = route?.params || {};
+  //console.log("ReviewMealScreen calendarId:", calendarId);
+  //console.log("ReviewMealScreens activityId:", activityId);
   const imageUrl = item ? { uri: item?.thumbnail_url } : front;
   const [note, setNote] = useState("");
   const [tags, setTags] = useState([]);
@@ -95,7 +99,21 @@ const ReviewMealScreen = ({ route, navigation }) => {
       setIsLoading(true);
       const mealkey = await logMeal(userData.userId, updatedValues);
       dispatch(addMealData({ mealkey, mealData: updatedValues }));
-
+      ///update meal activities
+      await updateMealActivitiesData(
+        calendarId,
+        activityId,
+        "1 Meal Added",
+        true
+      );
+      dispatch(
+        updateCalendarMealActivity({
+          calendarId,
+          activityId,
+          isChecked: true,
+          text: "1 Meal Added",
+        })
+      );
       setShowSuccessMessage(true);
 
       setTimeout(() => {
@@ -112,7 +130,7 @@ const ReviewMealScreen = ({ route, navigation }) => {
   }, [formState, dispatch]);
 
   const setCategoryTag = (item) => {
-    //console.log("setCategoryTag", item);
+    // console.log("setCategoryTag", item, " selectedTag", selectedTag);
     setSelectedTag(item);
     setTagErrorText("");
   };

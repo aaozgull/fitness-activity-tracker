@@ -31,6 +31,7 @@ import ThumbUpScreen from "../../features/Calendar/screen/ThumbUpScreen";
 import TodayWorkoutScreen from "../../features/Calendar/screen/TodayWorkoutScreen";
 import RestScreen from "../../features/Calendar/screen/RestScreen";
 import BodyStatsNavigator from "./BodyStats.navigator";
+import LogProgressScreen from "../../features/photoGallery/screen/LogProgressScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -53,7 +54,7 @@ const StackNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="BodyStats"
+        name="BodyStatsScreen"
         component={BodyStatsNavigator}
         options={{ headerShown: false }}
       />
@@ -78,6 +79,7 @@ const StackNavigator = () => {
         component={RestScreen}
         options={{ headerShown: false }}
       />
+      <Stack.Screen name="CalendarPhotoScreen" component={LogProgressScreen} />
     </Stack.Navigator>
   );
 };

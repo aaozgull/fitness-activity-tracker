@@ -5,7 +5,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors } from "../../../infrastructure/theme/colors";
 
 const Added = ({ isVisible, onClose, color }) => {
-  console.log("color in Added", color);
+  //console.log("color in Added", color);
   useEffect(() => {
     setTimeout(() => {
       ///navigation.goBack();

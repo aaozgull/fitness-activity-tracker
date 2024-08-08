@@ -135,13 +135,45 @@ export const updateActivitiesData = async (
     `activities/${calendarItemId}/${activityId}`
   );
 
-  console.log("Updating data at:", calendarItemRef.toString());
-  console.log("Updating checked value to:", checked);
-  console.log("Updating description to:", description);
+  //console.log("Updating data at:", calendarItemRef.toString());
+  //console.log("Updating checked value to:", checked);
+  //console.log("Updating description to:", description);
 
   await update(calendarItemRef, {
-    checked: checked,
+    isChecked: checked,
     description: description,
+  }).catch((error) => {
+    console.error("Error updating activity:", error);
+  });
+};
+
+export const updateMealActivitiesData = async (
+  calendarItemId,
+  activityId,
+  text,
+  checked
+) => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (!user) {
+    console.error("User is not authenticated");
+    return;
+  }
+
+  const app = getFirebaseApp();
+  const dbRef = ref(getDatabase(app));
+  const calendarItemRef = child(
+    dbRef,
+    `activities/${calendarItemId}/${activityId}`
+  );
+
+  console.log("Updating data at:", calendarItemRef.toString());
+  console.log("Updating text value to:", text);
+
+  await update(calendarItemRef, {
+    isChecked: checked,
+    text: text,
   }).catch((error) => {
     console.error("Error updating activity:", error);
   });

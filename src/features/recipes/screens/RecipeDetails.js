@@ -18,8 +18,11 @@ import PageTitle from "../../../components/utility/PageTitle";
 import CustomHeaderButton from "../../../components/utility/CustomHeaderButton";
 
 const RecipeDetails = ({ route, navigation }) => {
-  const { item } = route?.params || {};
+  const { item, calendarId, activityId } = route?.params || {};
   // console.log("item?.instructions :>> ", item?.instructions);
+  //console.log("RecipeDetails calendarId:", calendarId);
+  //console.log("RecipeDetails activityId:", activityId);
+
   const instructions = item?.instructions || [];
   const nutrition = item?.nutrition;
   delete nutrition?.updated_at;
@@ -35,7 +38,13 @@ const RecipeDetails = ({ route, navigation }) => {
               color={colors.ui.grey10} // Custom text color
               size={24}
               fontFamily="bold"
-              onPress={() => navigation.navigate("ReviewMealScreen", { item })}
+              onPress={() =>
+                navigation.navigate("ReviewMealScreen", {
+                  item,
+                  calendarId,
+                  activityId,
+                })
+              }
             />
           </HeaderButtons>
         );

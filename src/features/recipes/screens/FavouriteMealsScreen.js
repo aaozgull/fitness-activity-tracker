@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
+import { FlatList, Text, SafeAreaView, StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 import { AntDesign } from "@expo/vector-icons";
 import Categories from "../components/Categories";
@@ -73,7 +73,7 @@ const FavouriteMealsScreen = ({ navigation }) => {
 
   if (filteredMeals.length === 0) {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1, marginHorizontal: 50 }}>
         <AntDesign
           name="hearto"
           size={100}

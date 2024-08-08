@@ -19,7 +19,10 @@ const BackButton = ({ onPress }) => (
   </Pressable>
 );
 
-const RecipesNavigator = () => {
+const RecipesNavigator = ({ params }) => {
+  // const { params } = route || {}; // Destructure params
+  //console.log("--------------------Navigating to  { params }:", params);
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -35,6 +38,7 @@ const RecipesNavigator = () => {
         options={({ navigation }) => ({
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
         })}
+        initialParams={params}
       />
       <Stack.Screen
         name="SearchRecipe"

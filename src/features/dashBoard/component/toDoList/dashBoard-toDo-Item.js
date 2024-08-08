@@ -22,44 +22,84 @@ function ToDoItem({
   style,
 }) {
   const [isChecked, setChecked] = useState(checked);
+  const [isEditable, setEditable] = useState(
+    screen === "Recipes" && isChecked === true ? true : false
+  );
+
+  /*  console.log(
+    `-----------ToDoItem isChecked= ${isChecked}  ${name} checked= ${checked} isEditable=  ${isEditable}`
+  ); */
+  const [currentDescription, setCurrentDescription] = useState(
+    description || ""
+  );
   const navigation = useNavigation();
-  // console.log(`ToDoItem ${description} ${name} ${checked} ${screen}`);
   const dispatch = useDispatch();
   const setCheckBox = async () => {
-    setChecked(!isChecked);
-    try {
-      // console.log(`setCheckBox ${description} ${name} ${checked} ${screen}`);
+    const newCheckedState = !isChecked;
+    setChecked(newCheckedState);
+    if (screen === "Recipes") {
+      setEditable(true);
+      navigation.navigate("Recipes", {
+        screen: "Recipe",
+        params: {
+          calendarId: calendarId,
+          activityId: activityId,
+        },
+      });
+    }
+    {
+      /*  console.log(
+        `-----------ToDoItem ${isChecked}  ${name}  ${checked}  ${newCheckedState}`
+      ); */
 
-      await updateActivitiesData(
-        calendarId,
-        activityId,
-        isChecked,
-        description
-      );
-      dispatch(
-        updateCalendarActivity({
-          calendarId,
-          activityId,
-          isChecked,
-          description,
-        })
-      );
-      if (!checked) {
-        if (screen) {
-          navigation.navigate(screen);
+      let newDescription = currentDescription;
+      if (currentDescription !== "") {
+        if (currentDescription === "completed") {
+          if (name === "weight") {
+            newDescription = "complete your schedule workout";
+          } else {
+            newDescription = "complete your schedule activity";
+          }
         } else {
-          console.error("Screen name is not provided or is invalid");
+          newDescription = "completed";
         }
       }
-    } catch (error) {
-      console.error("Error adding activity:", error);
+      setCurrentDescription(newDescription);
+
+      try {
+        await updateActivitiesData(
+          calendarId,
+          activityId,
+          newCheckedState,
+          newDescription
+        );
+        dispatch(
+          updateCalendarActivity({
+            calendarId,
+            activityId,
+            isChecked: newCheckedState,
+            description: newDescription,
+          })
+        );
+
+        //  console.log("isChecked", newCheckedState);
+        if (newCheckedState) {
+          if (screen) {
+            navigation.navigate(screen);
+          } else {
+            console.error("Screen name is not provided or is invalid");
+          }
+        }
+      } catch (error) {
+        console.error("Error adding activity:", error);
+      }
     }
   };
   return (
     <View style={style}>
       <IconWithText
         text={text}
-        description={description}
+        description={currentDescription}
         icon={icon}
         name={name}
         color={color}
@@ -72,6 +112,7 @@ function ToDoItem({
           value={isChecked}
           color={color}
           onValueChange={setCheckBox}
+          disabled={isEditable} // Disable the checkbox if not editable
         />
       </View>
     </View>

@@ -22,9 +22,11 @@ import {
 } from "../../../utils/actions/authActions";
 import { validateInput } from "../../../utils/actions/formActions";
 import { reducer } from "../../../utils/reducers/formReducer";
+import { useNavigation } from "@react-navigation/native";
 
-const SettingsScreen = (props) => {
+const SettingsScreen = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -187,14 +189,14 @@ const SettingsScreen = (props) => {
           type={"link"}
           title="Edit Profile Info"
           hideImage={true}
-          onPress={() => props.navigation.navigate("ProfileInfo")}
+          onPress={() => navigation.navigate("ProfileInfo")}
         />
         <DataItem
           type={"link"}
           title="Starred messages"
           hideImage={true}
           onPress={() =>
-            props.navigation.navigate("DataList", {
+            navigation.navigate("DataList", {
               title: "Starred messages",
               data: sortedStarredMessages,
               type: "messages",
@@ -205,13 +207,13 @@ const SettingsScreen = (props) => {
           type={"link"}
           title="BMI Calculation"
           hideImage={true}
-          onPress={() => props.navigation.navigate("BMICalculation")}
+          onPress={() => navigation.navigate("BMICalculation")}
         />
         {/*    <DataItem
           type={"link"}
           title="Timer Screen"
           hideImage={true}
-          onPress={() => props.navigation.navigate("TimerScreen")}
+          onPress={() =>  navigation.navigate("TimerScreen")}
         /> */}
 
         <SubmitButton

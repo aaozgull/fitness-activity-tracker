@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   divider: {
-    height: 1,
+    height: 2,
     backgroundColor: theme.colors.ui.grey300,
     margin: 14,
   },

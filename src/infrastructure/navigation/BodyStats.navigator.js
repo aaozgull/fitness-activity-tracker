@@ -23,7 +23,7 @@ const BodyStatsNavigator = () => {
       screenOptions={{ headerTitleAlign: "center", headerShadowVisible: false }}
     >
       <Stack.Screen
-        name="BodyStatsScreen"
+        name="BodyStats"
         component={BodyStatsScreen}
         options={{ headerLeft: null, gestureEnabled: false }}
       />
